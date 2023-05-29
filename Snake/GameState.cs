@@ -96,5 +96,52 @@ namespace Snake
             snakePositions.RemoveLast();
         }
 
+        public void ChangeDirection(Direction dir)
+        {
+            Dir = dir;
+        }
+
+        private bool OutsideGrid(Position pos)
+        {
+            return pos.Row<0 || pos.Col < 0 || pos.Row>=Rows || pos.Col>=Cols;
+        }
+
+        private GridValue WillHit(Position newHeadPos)
+        {
+            if (OutsideGrid(newHeadPos))
+            {
+                return GridValue.Outside;
+            }
+
+            if (newHeadPos == TailPosition())
+            {
+                return GridValue.Empty;
+            }
+
+            return Grid[newHeadPos.Row, newHeadPos.Col];
+        }
+
+        public void Move()
+        {
+            Position newHeadpos = HeadPosition().Translate(Dir);
+            GridValue hit = WillHit(newHeadpos);
+            if (hit == GridValue.Outside || hit == GridValue.Snake)
+            {
+                GameOver = true;
+            }
+            else if (hit == GridValue.Empty)
+            {
+                RemoveTail();
+                AddHead(newHeadpos);
+            }
+            else if (hit == GridValue.Food)
+            {
+                AddHead(newHeadpos);
+                Score++;
+                AddFood(); 
+            }
+        }
+
+
     }
 }
