@@ -1,0 +1,4 @@
+D:\programowanie\GITHUB\Snake\Snake\obj\Debug\net6.0-windows\Snake.csproj.AssemblyReference.cache
+D:\programowanie\GITHUB\Snake\Snake\obj\Debug\net6.0-windows\MainWindow.g.cs
+D:\programowanie\GITHUB\Snake\Snake\obj\Debug\net6.0-windows\Snake_MarkupCompile.cache
+D:\programowanie\GITHUB\Snake\Snake\obj\Debug\net6.0-windows\Snake_MarkupCompile.lref
