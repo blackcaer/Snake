@@ -1,7 +1,7 @@
 *.cache
 *.lref
 *.i
-*.i*
+*.i.*
 *.resources
 *.editor*
 *.assembly*
