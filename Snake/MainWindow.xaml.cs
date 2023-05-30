@@ -38,11 +38,10 @@ namespace Snake
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    Image image = new Image { Source = Images.Empty } ;
+                    Image image = new Image { Source = Images.Empty };
 
-                    images[r,c] = image;
+                    images[r, c] = image;
                     GameGrid.Children.Add(image);
-
                 }
             }
 
