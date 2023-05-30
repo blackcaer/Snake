@@ -1,8 +1,17 @@
 *.cache
 *.lref
 *.i
-*.vs/
+*.i*
+*.resources
+*.editor*
+*.assembly*
+*.pdb*
+*.csproj*
 
+
+.vs/
+bin/
+obj/
 
 
 
