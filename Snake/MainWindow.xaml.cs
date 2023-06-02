@@ -38,9 +38,10 @@ namespace Snake
             gameState = new GameState(rows,cols);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Draw();
+            await GameLoop();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -66,6 +67,16 @@ namespace Snake
                     break;
             }
         }
+         
+        private async Task GameLoop(int tickTime=100)
+        {
+            while (!gameState.GameOver)
+            {
+                await Task.Delay(tickTime);
+                gameState.Move();
+                Draw();
+            }
+        }
 
         private Image[,] SetupGrid()
         {
@@ -89,6 +100,7 @@ namespace Snake
         private void Draw()
         {
             DrawGrid();
+            ScoreText.Text = $"SCORE {gameState.Score}";
         }
         private void DrawGrid()
         {
