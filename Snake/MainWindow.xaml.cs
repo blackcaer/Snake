@@ -31,6 +31,7 @@ namespace Snake
         private readonly int rows = 15,cols = 15;
         private readonly Image[,] gridImages;
         private GameState gameState;
+        private bool gameRunning=false;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,10 +39,28 @@ namespace Snake
             gameState = new GameState(rows,cols);
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async Task RunGame()
         {
             Draw();
+            await ShowCountDown();
+            Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+            await ShowGameOver();
+            gameState = new GameState(rows, cols);
+        }
+
+        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Overlay.Visibility == Visibility.Visible)
+            {
+                e.Handled = true;
+            }
+            if (!gameRunning)
+            {
+                gameRunning = true;
+                await RunGame();
+                gameRunning = false;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -102,6 +121,7 @@ namespace Snake
             DrawGrid();
             ScoreText.Text = $"SCORE {gameState.Score}";
         }
+
         private void DrawGrid()
         {
             for (int r=0;r<rows;r++)
@@ -113,6 +133,23 @@ namespace Snake
 
                 }
             }
+        }
+
+        private async Task ShowCountDown()
+        {
+            for (int i=3;i>=1;i--)
+            {
+                OverlayText.Text = i.ToString();
+                await Task.Delay(500);
+
+            }
+        }
+
+        private async Task ShowGameOver()
+        {
+            await Task.Delay(1000);
+            Overlay.Visibility = Visibility.Visible;
+            OverlayText.Text = "PRESS ANY KEY TO START";
         }
     }
 }
