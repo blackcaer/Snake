@@ -10,7 +10,6 @@ namespace Snake
         {
             Row = row;
             Col = col;
-
         }
 
         public Position Translate(Direction dir)

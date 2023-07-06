@@ -28,7 +28,7 @@ namespace Snake
 
         };
 
-        private readonly int rows = 20, cols = 15;
+        private readonly int rows = 15, cols = 15;
         private readonly Image[,] gridImages;
         private GameState gameState;
         private bool gameRunning = false;
@@ -46,9 +46,10 @@ namespace Snake
             InitializeComponent();
             gridImages = SetupGrid();
             gameState = new GameState(rows,cols);
+            showMenu();
         }
 
-        private async Task RunGame()
+        private async Task RunGame(int rows,int cols)
         {
             Draw();
             await ShowCountDown();
@@ -58,22 +59,23 @@ namespace Snake
             gameState = new GameState(rows, cols);
         }
 
-        private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void showMenu()
         {
-            if (Overlay.Visibility == Visibility.Visible)
-            {
-                e.Handled = true;
-            }
+            return;
+        }
+
+        private async void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+
             if (!gameRunning)
             {
                 gameRunning = true;
-                await RunGame();
+                await RunGame(rows, cols);
                 gameRunning = false;
+                showMenu();
+                return;
             }
-        }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
             if (gameState.GameOver)
             {
                 return;
@@ -187,6 +189,11 @@ namespace Snake
                 await Task.Delay(500);
 
             }
+        }
+
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            ;
         }
 
         private async Task ShowGameOver()
