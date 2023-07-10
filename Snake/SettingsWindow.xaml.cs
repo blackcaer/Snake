@@ -36,6 +36,8 @@ namespace Snake
             // vars -> new settings
             // apply new settings
             // reload grid
+
+            
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)

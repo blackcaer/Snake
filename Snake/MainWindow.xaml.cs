@@ -47,11 +47,11 @@ namespace Snake
             settingsWindow = new SettingsWindow();
             InitializeComponent();
             CreateNewGame();
-            
         }
 
         private void CreateNewGame()
         {
+            GameGrid.Children.Clear();
             gridImages = SetupGrid();
             gameState = new GameState(settings.Rows, settings.Cols);
         }
@@ -230,6 +230,11 @@ namespace Snake
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "PRESS ANY KEY TO START";
+        }
+
+        public bool UpdateSettings(Settings newSettings)
+        {
+            return settings.ApplySettings(newSettings);
         }
     }
 }
