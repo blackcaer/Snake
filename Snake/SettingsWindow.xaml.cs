@@ -32,12 +32,17 @@ namespace Snake
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
         {
-
+            // values from sliders etc -> vars
+            // vars -> new settings
+            // apply new settings
+            // reload grid
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            // values from sliders etc -> vars
+            // vars -> new settings
+            // discard new settings
         }
     }
 }

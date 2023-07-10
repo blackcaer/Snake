@@ -27,7 +27,7 @@ namespace Snake
             { GridValue.Food, Images.Food }
         };
 
-        private readonly Image[,] gridImages;
+        private Image[,] gridImages;
         private GameState gameState;
         private SettingsWindow settingsWindow;
         private Settings settings;
@@ -44,23 +44,26 @@ namespace Snake
         public MainWindow()
         {
             settings = new Settings();
-            InitializeComponent();
-            gridImages = SetupGrid();
-            gameState = new GameState(settings.Rows,settings.Cols);
             settingsWindow = new SettingsWindow();
+            InitializeComponent();
+            CreateNewGame();
             
         }
 
-        private async Task RunGame(int rows,int cols)
+        private void CreateNewGame()
+        {
+            gridImages = SetupGrid();
+            gameState = new GameState(settings.Rows, settings.Cols);
+        }
+        private async Task RunGame()
         {
             int tickTime = getTickTime();
-
             Draw();
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop(tickTime);
             await ShowGameOver();
-            gameState = new GameState(rows, cols);
+            CreateNewGame();
         }
         private int getTickTime()
         {
@@ -84,9 +87,11 @@ namespace Snake
 
             if (!gameRunning)
             {
+                settings.FreezeSettings();
                 gameRunning = true;
-                await RunGame(settings.Rows, settings.Cols);
+                await RunGame();
                 gameRunning = false;
+                settings.UnfreezeSettings();
                 ShowMenu();
                 return;
             }
