@@ -17,7 +17,7 @@
         KeyDown="Window_KeyDown"
         >
 
-    <Viewbox>
+    <Viewbox Loaded="Viewbox_Loaded">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -47,10 +47,10 @@
                          Background="{StaticResource GridBackgroundColor}"
                          SnapsToDevicePixels="True"
                          RenderOptions.BitmapScalingMode="HighQuality"
-                         >
-
-                </UniformGrid>
+                         />
             </Border>
+
+            
             <Border x:Name="Overlay"
                     Grid.Row="1"
                     Background="{StaticResource OverlayColor}"
@@ -65,6 +65,8 @@
                            VerticalAlignment="Center"
                            TextWrapping="Wrap"/>
             </Border>
+
+
             <Button x:Name="ButtonSettings" HorizontalAlignment="Left" Margin="-151,6,0,0" VerticalAlignment="Top" Click="ButtonSettings_Click" Height="30" Width="30" >
                 <Button.Background>
                     <ImageBrush ImageSource="/assets/Body.png"/>

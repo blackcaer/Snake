@@ -25,12 +25,12 @@ namespace Snake
             { GridValue.Empty, Images.Empty },
             { GridValue.Snake, Images.Body },
             { GridValue.Food, Images.Food }
-
         };
 
-        private readonly int rows = 15, cols = 15;
         private readonly Image[,] gridImages;
         private GameState gameState;
+        private SettingsWindow settingsWindow;
+        private Settings settings;
         private bool gameRunning = false;
 
         private readonly Dictionary<Direction, int> dirToRotation = new()
@@ -43,24 +43,39 @@ namespace Snake
 
         public MainWindow()
         {
+            settings = new Settings();
             InitializeComponent();
             gridImages = SetupGrid();
-            gameState = new GameState(rows,cols);
-            showMenu();
+            gameState = new GameState(settings.Rows,settings.Cols);
+            settingsWindow = new SettingsWindow();
+            
         }
 
         private async Task RunGame(int rows,int cols)
         {
+            int tickTime = getTickTime();
+
             Draw();
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
-            await GameLoop();
+            await GameLoop(tickTime);
             await ShowGameOver();
             gameState = new GameState(rows, cols);
         }
-
-        private void showMenu()
+        private int getTickTime()
         {
+            return (int)(settings.TickTimeMultiplier * Settings.tickTimeStart);
+        }
+        /*private void setSideCells(int rows, int cols)
+        {
+            this.cols = (cols >= minSideCells && cols <= maxSideCells) ? cols : defaulSideCells;
+            this.rows = (rows >= minSideCells && rows <= maxSideCells) ? rows : defaulSideCells;
+        }*/
+
+        private void ShowMenu()
+        {
+            settingsWindow.Owner = this;
+            settingsWindow.ShowDialog();
             return;
         }
 
@@ -70,9 +85,9 @@ namespace Snake
             if (!gameRunning)
             {
                 gameRunning = true;
-                await RunGame(rows, cols);
+                await RunGame(settings.Rows, settings.Cols);
                 gameRunning = false;
-                showMenu();
+                ShowMenu();
                 return;
             }
 
@@ -98,7 +113,7 @@ namespace Snake
             }
         }
          
-        private async Task GameLoop(int tickTime=100)
+        private async Task GameLoop(int tickTime)
         {
             while (!gameState.GameOver)
             {
@@ -110,6 +125,9 @@ namespace Snake
 
         private Image[,] SetupGrid()
         {
+            var rows = settings.Rows;
+            var cols = settings.Cols;
+
             Image[,] images = new Image[rows,cols];
             GameGrid.Rows = rows;
             GameGrid.Columns = cols;
@@ -141,9 +159,9 @@ namespace Snake
 
         private void DrawGrid()
         {
-            for (int r=0;r<rows;r++)
+            for (int r=0;r<settings.Rows;r++)
             {
-                for (int c=0;c<cols;c++)
+                for (int c=0;c<settings.Cols;c++)
                 {
                     GridValue gridVal = gameState.Grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
@@ -194,6 +212,11 @@ namespace Snake
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
             ;
+        }
+
+        private void Viewbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            ShowMenu();
         }
 
         private async Task ShowGameOver()

@@ -14,9 +14,6 @@ namespace Snake
         private readonly LinkedList<Direction> dirChanges = new LinkedList<Direction>();
         private readonly LinkedList<Position> snakePositions = new LinkedList<Position>();
         private readonly Random random = new Random();
-        
-
-
         public GameState(int rows,int cols)
         {
             Rows = rows;
@@ -85,7 +82,6 @@ namespace Snake
             Grid[tail.Row, tail.Col] = GridValue.Empty;
             snakePositions.RemoveLast();
         }
-
         private Direction GetLastDirection()
         {
             if (dirChanges.Count==0)
@@ -107,7 +103,6 @@ namespace Snake
 
             return newDir != lastDir && newDir != lastDir.Opposite();
         }
-
         public void ChangeDirection(Direction dir)
         {
             if (CanChangeDirection(dir))
