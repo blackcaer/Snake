@@ -19,9 +19,16 @@ namespace Snake
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        //public event EventHandler 
+
+
+
+        public Settings Settings { get; private set; }
+
         public SettingsWindow()
         {
             InitializeComponent();
+            Settings = new Settings();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -32,12 +39,17 @@ namespace Snake
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
         {
+
             // values from sliders etc -> vars
             // vars -> new settings
             // apply new settings
             // reload grid
-
+            //https://stackoverflow.com/questions/20661443/call-a-public-mainwindow-function-from-within-a-page-in-wpf
+            Settings.SetRowsCols((int)Math.Round(SliderRows.Value) ,Settings.Cols);
             
+            MainWindow main = (MainWindow)Application.Current.MainWindow;
+            MessageBox.Show("settingswindow handler: "+(main.settings.Rows).ToString());
+            //main.UpdateSettings(settings);
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
@@ -45,6 +57,8 @@ namespace Snake
             // values from sliders etc -> vars
             // vars -> new settings
             // discard new settings
+            MainWindow main = (MainWindow)Application.Current.MainWindow;
+            MessageBox.Show((main.settings.Rows).ToString());
         }
     }
 }

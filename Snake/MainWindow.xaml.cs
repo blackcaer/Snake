@@ -29,8 +29,8 @@ namespace Snake
 
         private Image[,] gridImages;
         private GameState gameState;
-        private SettingsWindow settingsWindow;
-        private Settings settings;
+        private readonly SettingsWindow settingsWindow;
+        private readonly Settings settings;
         private bool gameRunning = false;
 
         private readonly Dictionary<Direction, int> dirToRotation = new()
@@ -43,8 +43,11 @@ namespace Snake
 
         public MainWindow()
         {
+            
+
             settings = new Settings();
             settingsWindow = new SettingsWindow();
+            settingsWindow.ButtonSettingsOk.Click += new RoutedEventHandler(ButtonSettingsOk_Click);
             InitializeComponent();
             CreateNewGame();
         }
@@ -80,42 +83,6 @@ namespace Snake
             settingsWindow.Owner = this;
             settingsWindow.ShowDialog();
             return;
-        }
-
-        private async void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-
-            if (!gameRunning)
-            {
-                settings.FreezeSettings();
-                gameRunning = true;
-                await RunGame();
-                gameRunning = false;
-                settings.UnfreezeSettings();
-                ShowMenu();
-                return;
-            }
-
-            if (gameState.GameOver)
-            {
-                return;
-            }
-
-            switch (e.Key)
-            {
-                case Key.Left:
-                    gameState.ChangeDirection(Direction.Left);
-                        break;
-                case Key.Right:
-                    gameState.ChangeDirection(Direction.Right);
-                    break;
-                case Key.Up:
-                    gameState.ChangeDirection(Direction.Up);
-                    break;
-                case Key.Down:
-                    gameState.ChangeDirection(Direction.Down);
-                    break;
-            }
         }
          
         private async Task GameLoop(int tickTime)
@@ -214,6 +181,42 @@ namespace Snake
             }
         }
 
+        private async void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (!gameRunning)
+            {
+                settings.FreezeSettings();
+                gameRunning = true;
+                await RunGame();
+                gameRunning = false;
+                settings.UnfreezeSettings();
+                ShowMenu();
+                return;
+            }
+
+            if (gameState.GameOver)
+            {
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Left:
+                    gameState.ChangeDirection(Direction.Left);
+                    break;
+                case Key.Right:
+                    gameState.ChangeDirection(Direction.Right);
+                    break;
+                case Key.Up:
+                    gameState.ChangeDirection(Direction.Up);
+                    break;
+                case Key.Down:
+                    gameState.ChangeDirection(Direction.Down);
+                    break;
+            }
+        }
+
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
             ;
@@ -235,6 +238,21 @@ namespace Snake
         public bool UpdateSettings(Settings newSettings)
         {
             return settings.ApplySettings(newSettings);
+        }
+
+        void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
+        {
+
+            // values from sliders etc -> vars
+            // vars -> new settings
+            // apply new settings
+            // reload grid
+            //https://stackoverflow.com/questions/20661443/call-a-public-mainwindow-function-from-within-a-page-in-wpf
+            
+            this.UpdateSettings(settingsWindow.Settings);
+            MainWindow main = (MainWindow)Application.Current.MainWindow;
+            MessageBox.Show("mainwindow handler"+(main.settings.Rows).ToString());
+            //MessageBox.Show("mainwindow handler");
         }
     }
 }

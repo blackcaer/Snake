@@ -43,13 +43,13 @@
                     </Style>
                 </Grid.Resources>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="Grid width" Style="{StaticResource label}"/>
-                <Label Grid.Row="1" Grid.Column="0" Content="Grid height" Style="{StaticResource label}"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Grid rows" Style="{StaticResource label}"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Grid columns" Style="{StaticResource label}"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Snake speed" Style="{StaticResource label}"/>
 
-                <Slider Grid.Row="0" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-                <Slider Grid.Row="1" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-                <Slider Grid.Row="2" Grid.Column="1" Minimum="50" Maximum="300" Value="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderRows" Grid.Row="0" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderCols" Grid.Row="1" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderTick" Grid.Row="2" Grid.Column="1" Minimum="50" Maximum="300" Value="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
 
             </Grid >
         </Border>
