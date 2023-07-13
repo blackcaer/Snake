@@ -14,14 +14,22 @@ using System.Windows.Shapes;
 
 namespace Snake
 {
+    public class UpdateGameSettingsEventArgs : EventArgs
+    {
+        public Settings Settings { get; }
+        public UpdateGameSettingsEventArgs(Settings settings)
+        {
+            Settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        }
+    }
+
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        //public event EventHandler 
-
-
+        public delegate void UpdateGameSettingsEventHandler(object sender, UpdateGameSettingsEventArgs e);
+        public event UpdateGameSettingsEventHandler UpdateGameSettingsEvent;
 
         public Settings Settings { get; private set; }
 
@@ -29,6 +37,17 @@ namespace Snake
         {
             InitializeComponent();
             Settings = new Settings();
+        }
+
+        public SettingsWindow(Settings settings)
+        {
+            InitializeComponent();
+            Settings = new Settings(settings);
+        }
+
+        protected virtual void RaiseUpdateGameSettingsEvent(Settings settings)
+        {
+            UpdateGameSettingsEvent?.Invoke(this, new UpdateGameSettingsEventArgs(settings));
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -39,17 +58,13 @@ namespace Snake
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
         {
-
             // values from sliders etc -> vars
             // vars -> new settings
             // apply new settings
             // reload grid
-            //https://stackoverflow.com/questions/20661443/call-a-public-mainwindow-function-from-within-a-page-in-wpf
-            Settings.SetRowsCols((int)Math.Round(SliderRows.Value) ,Settings.Cols);
-            
-            MainWindow main = (MainWindow)Application.Current.MainWindow;
-            MessageBox.Show("settingswindow handler: "+(main.settings.Rows).ToString());
-            //main.UpdateSettings(settings);
+
+            Settings.SetRowsCols((int)Math.Round(SliderRows.Value), Settings.Cols);
+            RaiseUpdateGameSettingsEvent(this.Settings);
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
@@ -58,7 +73,7 @@ namespace Snake
             // vars -> new settings
             // discard new settings
             MainWindow main = (MainWindow)Application.Current.MainWindow;
-            MessageBox.Show((main.settings.Rows).ToString());
+            //MessageBox.Show((main.settings.Rows).ToString());
         }
     }
 }

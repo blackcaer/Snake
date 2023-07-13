@@ -31,6 +31,11 @@ namespace Snake
             Cols = defaulSideCells;
         }
 
+        public Settings(Settings settings)
+        {
+            ApplySettings(settings);
+        }
+
         public void FreezeSettings()
         {
             SettingsFreezed = true;

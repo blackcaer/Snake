@@ -43,11 +43,10 @@ namespace Snake
 
         public MainWindow()
         {
-            
-
             settings = new Settings();
-            settingsWindow = new SettingsWindow();
-            settingsWindow.ButtonSettingsOk.Click += new RoutedEventHandler(ButtonSettingsOk_Click);
+            settingsWindow = new SettingsWindow(settings);
+            //settingsWindow.ButtonSettingsOk.Click += new RoutedEventHandler(sButtonSettingsOk_Click);
+            settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
             InitializeComponent();
             CreateNewGame();
         }
@@ -219,7 +218,7 @@ namespace Snake
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
-            ;
+            ShowMenu();
         }
 
         private void Viewbox_Loaded(object sender, RoutedEventArgs e)
@@ -240,19 +239,11 @@ namespace Snake
             return settings.ApplySettings(newSettings);
         }
 
-        void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
+        void UpdateSettingsHandler(object sender, UpdateGameSettingsEventArgs e)
         {
-
-            // values from sliders etc -> vars
-            // vars -> new settings
-            // apply new settings
-            // reload grid
-            //https://stackoverflow.com/questions/20661443/call-a-public-mainwindow-function-from-within-a-page-in-wpf
-            
-            this.UpdateSettings(settingsWindow.Settings);
-            MainWindow main = (MainWindow)Application.Current.MainWindow;
-            MessageBox.Show("mainwindow handler"+(main.settings.Rows).ToString());
-            //MessageBox.Show("mainwindow handler");
+            bool updateStatus = UpdateSettings(e.Settings);
+            MessageBox.Show("UpdateSettings handler, update status: "+updateStatus);
         }
+
     }
 }
