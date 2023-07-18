@@ -30,7 +30,7 @@ namespace Snake
         private Image[,] gridImages;
         private GameState gameState;
         private readonly SettingsWindow settingsWindow;
-        private readonly Settings settings;
+        public readonly Settings settings;
         private bool gameRunning = false;
 
         private readonly Dictionary<Direction, int> dirToRotation = new()

@@ -49,7 +49,7 @@
 
                 <Slider x:Name="SliderRows" Grid.Row="0" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
                 <Slider x:Name="SliderCols" Grid.Row="1" Grid.Column="1" Minimum="2" Maximum="30" Value="15" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-                <Slider x:Name="SliderTick" Grid.Row="2" Grid.Column="1" Minimum="50" Maximum="300" Value="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderSpeed" Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="100" Value="10" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
 
             </Grid >
         </Border>

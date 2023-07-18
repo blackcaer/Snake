@@ -45,6 +45,21 @@ namespace Snake
             Settings = new Settings(settings);
         }
 
+        public void ApplySettingsToView(Settings settings)
+        {
+            SliderRows.Value = settings.Rows;
+            SliderCols.Value = settings.Cols;
+            SliderSpeed.Value = TickTimeMtpToSpeedMtp(settings.TickTimeMultiplier);
+        }
+        private static double SpeedMtpToTickTimeMtp(double speedMtp)
+        {
+            return 1/(speedMtp/10);
+        }
+        private static double TickTimeMtpToSpeedMtp(double tickTimeMtp)
+        {
+            return (1 / tickTimeMtp) * 10;
+        }
+
         protected virtual void RaiseUpdateGameSettingsEvent(Settings settings)
         {
             UpdateGameSettingsEvent?.Invoke(this, new UpdateGameSettingsEventArgs(settings));
@@ -63,7 +78,9 @@ namespace Snake
             // apply new settings
             // reload grid
 
-            Settings.SetRowsCols((int)Math.Round(SliderRows.Value), Settings.Cols);
+            Settings.SetRowsCols((int)Math.Round(SliderRows.Value), (int)Math.Round(SliderCols.Value));
+            Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(SliderSpeed.Value));
+
             RaiseUpdateGameSettingsEvent(this.Settings);
         }
 
@@ -74,6 +91,7 @@ namespace Snake
             // discard new settings
             MainWindow main = (MainWindow)Application.Current.MainWindow;
             //MessageBox.Show((main.settings.Rows).ToString());
+            ApplySettingsToView(main.settings);
         }
     }
 }
