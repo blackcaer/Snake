@@ -29,7 +29,7 @@ namespace Snake
 
         private Image[,] gridImages;
         private GameState gameState;
-        private readonly SettingsWindow settingsWindow;
+        private SettingsWindow settingsWindow;
         public readonly Settings settings;
         private bool gameRunning = false;
 
@@ -44,9 +44,8 @@ namespace Snake
         public MainWindow()
         {
             settings = new Settings();
-            settingsWindow = new SettingsWindow(settings);
-            //settingsWindow.ButtonSettingsOk.Click += new RoutedEventHandler(sButtonSettingsOk_Click);
-            settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
+
+            CreateSettingsWindow();
             InitializeComponent();
             CreateNewGame();
         }
@@ -77,8 +76,15 @@ namespace Snake
             this.rows = (rows >= minSideCells && rows <= maxSideCells) ? rows : defaulSideCells;
         }*/
 
+        private void CreateSettingsWindow()
+        {
+            settingsWindow = new SettingsWindow(settings);
+            settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
+        }
+
         private void ShowMenu()
         {
+            CreateSettingsWindow();
             settingsWindow.Owner = this;
             settingsWindow.ShowDialog();
             return;
@@ -217,11 +223,6 @@ namespace Snake
         }
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
-        {
-            ShowMenu();
-        }
-
-        private void Viewbox_Loaded(object sender, RoutedEventArgs e)
         {
             ShowMenu();
         }

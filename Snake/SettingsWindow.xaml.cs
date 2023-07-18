@@ -43,6 +43,7 @@ namespace Snake
         {
             InitializeComponent();
             Settings = new Settings(settings);
+            ApplySettingsToView(Settings);
         }
 
         public void ApplySettingsToView(Settings settings)
@@ -67,8 +68,8 @@ namespace Snake
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Hide();
-            e.Cancel = true;
+            //Hide();
+            //e.Cancel = true;
         }
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)

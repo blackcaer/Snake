@@ -17,7 +17,7 @@
         KeyDown="Window_KeyDown"
         >
 
-    <Viewbox Loaded="Viewbox_Loaded">
+    <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
