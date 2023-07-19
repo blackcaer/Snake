@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
         Title="SettingsWindow" Width="400" Height="200" Closing="Window_Closing">
-    
-    <Grid ShowGridLines="True">
+
+    <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -21,7 +21,7 @@
 
 
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1" >
-            <Grid ShowGridLines="True">
+            <Grid ShowGridLines="False">
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition />
                     <ColumnDefinition/>

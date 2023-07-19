@@ -35,12 +35,14 @@ namespace Snake
 
         public SettingsWindow()
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             Settings = new Settings();
         }
 
         public SettingsWindow(Settings settings)
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
             Settings = new Settings(settings);
             ApplySettingsToView(Settings);
@@ -90,9 +92,11 @@ namespace Snake
             // values from sliders etc -> vars
             // vars -> new settings
             // discard new settings
-            MainWindow main = (MainWindow)Application.Current.MainWindow;
-            //MessageBox.Show((main.settings.Rows).ToString());
-            ApplySettingsToView(main.settings);
+
+            //MainWindow main = (MainWindow)Application.Current.MainWindow;
+            //ApplySettingsToView(main.settings);
+            
+            Close();
         }
     }
 }
