@@ -86,5 +86,42 @@ namespace Snake
             Cols = (NewCols>=minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells;
         }
 
+        public static bool operator == (Settings x,Settings y)
+        {
+            return x.Equals(y); 
+        } 
+
+        public static bool operator != (Settings x, Settings y)
+        {
+            return !(x == y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            if (obj is Settings objset)
+            {
+                return (
+                    TickTimeMultiplier == objset.TickTimeMultiplier &&
+                    Rows == objset.Rows &&
+                    Cols == objset.Cols &&
+                    SettingsFreezed == objset.SettingsFreezed
+                    );
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash += TickTimeMultiplier.GetHashCode();
+            hash = hash * 23 + Rows.GetHashCode();
+            hash = hash * 23 + Cols.GetHashCode();
+            hash = hash * 23 + SettingsFreezed.GetHashCode();
+            return hash;
+        }
     }
 }

@@ -30,15 +30,9 @@ namespace Snake
     {
         public delegate void UpdateGameSettingsEventHandler(object sender, UpdateGameSettingsEventArgs e);
         public event UpdateGameSettingsEventHandler UpdateGameSettingsEvent;
-
+        private Settings originalSettings;
+        private const string closingMonit = "Are you sure you want to close the window? Changes will be lost.";
         public Settings Settings { get; private set; }
-
-        public SettingsWindow()
-        {
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            InitializeComponent();
-            Settings = new Settings();
-        }
 
         public SettingsWindow(Settings settings)
         {
@@ -46,6 +40,7 @@ namespace Snake
             InitializeComponent();
             Settings = new Settings(settings);
             ApplySettingsToView(Settings);
+            originalSettings = settings;
         }
 
         public void ApplySettingsToView(Settings settings)
@@ -71,7 +66,16 @@ namespace Snake
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Hide();
-            //e.Cancel = true;
+
+            if (Settings!=originalSettings)
+            {
+                var x = MessageBox.Show(closingMonit,"Confirmation",MessageBoxButton.YesNo,MessageBoxImage.Exclamation);
+            
+                if (x == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
