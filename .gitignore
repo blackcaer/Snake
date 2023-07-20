@@ -6,7 +6,6 @@
 *.editor*
 *.assembly*
 *.pdb*
-*.csproj*
 
 
 .vs/
