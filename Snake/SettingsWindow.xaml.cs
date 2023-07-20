@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace Snake
 {
@@ -26,21 +27,63 @@ namespace Snake
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
         public delegate void UpdateGameSettingsEventHandler(object sender, UpdateGameSettingsEventArgs e);
         public event UpdateGameSettingsEventHandler UpdateGameSettingsEvent;
-        private Settings originalSettings;
+        private readonly Settings originalSettings;
         private const string closingMonit = "Are you sure you want to close the window? Changes will be lost.";
         public Settings Settings { get; private set; }
 
-        public SettingsWindow(Settings settings)
+        public double sliderRowsValue;
+        public double sliderColsValue;
+        public double sliderSpeedMtpValue;
+
+        public double SliderRowsValue 
         {
+            get { return sliderRowsValue; }
+            set 
+            { 
+                sliderRowsValue = value;
+                OnPropertyChanged(nameof(SliderRowsValue));
+            }
+        }
+
+        public double SliderColsValue
+        {
+            get { return sliderColsValue; }
+            set
+            {
+                sliderColsValue = value;
+                OnPropertyChanged(nameof(SliderColsValue));
+            }
+        }
+
+        public double SliderSpeedMtpValue
+        {
+            get { return sliderSpeedMtpValue; }
+            set
+            {
+                sliderSpeedMtpValue = value;
+                OnPropertyChanged(nameof(SliderSpeedMtpValue));
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public SettingsWindow(Settings settings)
+        { 
+            originalSettings = settings;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
-            Settings = new Settings(settings);
-            ApplySettingsToView(Settings);
-            originalSettings = settings;
+            DataContext = this;
+            Settings = new Settings(originalSettings);
+            ApplySettingsToView(Settings); 
         }
 
         public void ApplySettingsToView(Settings settings)
@@ -58,7 +101,7 @@ namespace Snake
             return (1 / tickTimeMtp) * 10;
         }
 
-        protected virtual void RaiseUpdateGameSettingsEvent(Settings settings)
+        protected virtual void OnUpdateGameSettings(Settings settings)
         {
             UpdateGameSettingsEvent?.Invoke(this, new UpdateGameSettingsEventArgs(settings));
         }
@@ -67,7 +110,7 @@ namespace Snake
         {
             //Hide();
 
-            if (Settings!=originalSettings)
+            if (Settings != originalSettings)
             {
                 var x = MessageBox.Show(closingMonit,"Confirmation",MessageBoxButton.YesNo,MessageBoxImage.Exclamation);
             
@@ -88,7 +131,7 @@ namespace Snake
             Settings.SetRowsCols((int)Math.Round(SliderRows.Value), (int)Math.Round(SliderCols.Value));
             Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(SliderSpeed.Value));
 
-            RaiseUpdateGameSettingsEvent(this.Settings);
+            OnUpdateGameSettings(Settings);
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
@@ -99,8 +142,10 @@ namespace Snake
 
             //MainWindow main = (MainWindow)Application.Current.MainWindow;
             //ApplySettingsToView(main.settings);
-            
-            Close();
+
+            string x = sliderRowsValue.ToString() +" "+ sliderColsValue.ToString() + " " + sliderSpeedMtpValue.ToString();
+            MessageBox.Show(x);
+            //Close();
         }
     }
 }

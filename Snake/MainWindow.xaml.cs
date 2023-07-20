@@ -43,6 +43,7 @@ namespace Snake
 
         public MainWindow()
         {
+            
             settings = new Settings();
 
             CreateSettingsWindow();
@@ -58,7 +59,7 @@ namespace Snake
         }
         private async Task RunGame()
         {
-            int tickTime = getTickTime();
+            int tickTime = GetTickTime();
             Draw();
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
@@ -66,7 +67,7 @@ namespace Snake
             await ShowGameOver();
             CreateNewGame();
         }
-        private int getTickTime()
+        private int GetTickTime()
         {
             return (int)(settings.TickTimeMultiplier * Settings.tickTimeStart);
         }
