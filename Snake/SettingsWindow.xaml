@@ -47,9 +47,9 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Grid columns" Style="{StaticResource label}"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Snake speed" Style="{StaticResource label}"/>
 
-                <Slider x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Minimum="2" Maximum="30" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-                <Slider x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Minimum="2" Maximum="30" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-                <Slider x:Name="SliderSpeed" Value="{Binding SliderSpeedMtpValue, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Minimum="1" Maximum="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="1" Minimum="2" Maximum="30" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="1" Minimum="2" Maximum="30" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+                <Slider x:Name="SliderSpeed" Value="{Binding SliderSpeedMtpValue, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="0.5" SmallChange="0.5" LargeChange="1" Minimum="1" Maximum="100" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
 
             </Grid >
         </Border>
