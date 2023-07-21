@@ -43,14 +43,10 @@ namespace Snake
 
         public MainWindow()
         {
-            
             settings = new Settings();
-
-            CreateSettingsWindow();
             InitializeComponent();
-            CreateNewGame();
+            CreateNewGame();   
         }
-
         private void CreateNewGame()
         {
             GameGrid.Children.Clear();
@@ -80,13 +76,13 @@ namespace Snake
         private void CreateSettingsWindow()
         {
             settingsWindow = new SettingsWindow(settings);
+            settingsWindow.Owner = this;
             settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
         }
 
-        private void ShowMenu()
+        private void ShowSettings()
         {
             CreateSettingsWindow();
-            settingsWindow.Owner = this;
             settingsWindow.ShowDialog();
             return;
         }
@@ -197,7 +193,7 @@ namespace Snake
                 await RunGame();
                 gameRunning = false;
                 settings.UnfreezeSettings();
-                ShowMenu();
+                ShowSettings();
                 return;
             }
 
@@ -225,7 +221,7 @@ namespace Snake
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
-            ShowMenu();
+            ShowSettings();
         }
 
         private async Task ShowGameOver()
