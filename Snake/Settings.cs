@@ -123,5 +123,14 @@ namespace Snake
             hash = hash * 23 + SettingsFreezed.GetHashCode();
             return hash;
         }
+
+        public override string ToString()
+        {
+            // Return a custom string representation of the class
+            return $"Rows = {Rows} \n " +
+                $"Cols = {Cols} \n " +
+                $"TickTimeMultiplier = {TickTimeMultiplier}\n " +
+                $"SettingsFreezed = {SettingsFreezed}";
+        }
     }
 }

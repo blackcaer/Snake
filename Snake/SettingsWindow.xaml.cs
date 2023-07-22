@@ -31,40 +31,37 @@ namespace Snake
     {
         public delegate void UpdateGameSettingsEventHandler(object sender, UpdateGameSettingsEventArgs e);
         public event UpdateGameSettingsEventHandler UpdateGameSettingsEvent;
-        private readonly Settings originalSettings;
+        private readonly Settings OriginalSettings;
         private const string closingMonit = "Are you sure you want to close the window? Changes will be lost.";
         public Settings Settings { get; private set; }
 
-        public double sliderRowsValue;
-        public double sliderColsValue;
-        public double sliderSpeedMtpValue;
-
-        public double SliderRowsValue 
+        public int SliderRowsValue 
         {
-            get { return sliderRowsValue; }
+            get { return Settings.Rows; }
             set 
-            { 
-                sliderRowsValue = value;
+            {
+                Settings.SetRowsCols(value,Settings.Cols);
+
                 OnPropertyChanged(nameof(SliderRowsValue));
             }
         }
 
-        public double SliderColsValue
+        public int SliderColsValue
         {
-            get { return sliderColsValue; }
+            get { return Settings.Cols; }
             set
             {
-                sliderColsValue = value;
+                Settings.SetRowsCols(Settings.Rows, value);
                 OnPropertyChanged(nameof(SliderColsValue));
             }
         }
 
         public double SliderSpeedMtpValue
         {
-            get { return sliderSpeedMtpValue; }
+            get { return TickTimeMtpToSpeedMtp(Settings.TickTimeMultiplier); }
             set
             {
-                sliderSpeedMtpValue = value;
+                Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(value));
                 OnPropertyChanged(nameof(SliderSpeedMtpValue));
             }
         }
@@ -77,20 +74,21 @@ namespace Snake
         }
 
         public SettingsWindow(Settings settings)
-        { 
-            originalSettings = settings;
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            InitializeComponent();
+        {
             DataContext = this;
-            Settings = new Settings(originalSettings);
+            OriginalSettings = settings;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Settings = new Settings(OriginalSettings);
+
+            InitializeComponent();
             ApplySettingsToView(Settings); 
         }
 
         public void ApplySettingsToView(Settings settings)
         {
-            SliderRows.Value = settings.Rows;
-            SliderCols.Value = settings.Cols;
-            SliderSpeed.Value = TickTimeMtpToSpeedMtp(settings.TickTimeMultiplier);
+            SliderRowsValue = settings.Rows;
+            SliderColsValue = settings.Cols;
+            SliderSpeedMtpValue = TickTimeMtpToSpeedMtp(settings.TickTimeMultiplier);
         }
         private static double SpeedMtpToTickTimeMtp(double speedMtp)
         {
@@ -109,8 +107,10 @@ namespace Snake
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Hide();
+            //MessageBox.Show("Original: "+ OriginalSettings.ToString()+'\n'+
+            //   "Window's: " + Settings.ToString());
 
-            if (Settings != originalSettings)
+            if (Settings != OriginalSettings)
             {
                 var x = MessageBox.Show(closingMonit,"Confirmation",MessageBoxButton.YesNo,MessageBoxImage.Exclamation);
             
@@ -128,8 +128,8 @@ namespace Snake
             // apply new settings
             // reload grid
 
-            Settings.SetRowsCols((int)Math.Round(SliderRows.Value), (int)Math.Round(SliderCols.Value));
-            Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(SliderSpeed.Value));
+            //Settings.SetRowsCols((int)Math.Round(SliderRows.Value), (int)Math.Round(SliderCols.Value));
+            //Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(SliderSpeed.Value));
 
             OnUpdateGameSettings(Settings);
         }
@@ -143,9 +143,9 @@ namespace Snake
             //MainWindow main = (MainWindow)Application.Current.MainWindow;
             //ApplySettingsToView(main.settings);
 
-            string x = sliderRowsValue.ToString() +" "+ sliderColsValue.ToString() + " " + sliderSpeedMtpValue.ToString();
-            MessageBox.Show(x);
-            //Close();
+            //string x = sliderRowsValue.ToString() +" "+ sliderColsValue.ToString() + " " + sliderSpeedMtpValue.ToString();
+            //MessageBox.Show(x);
+            Close();
         }
     }
 }

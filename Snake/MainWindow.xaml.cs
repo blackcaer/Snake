@@ -78,6 +78,12 @@ namespace Snake
             settingsWindow = new SettingsWindow(settings);
             settingsWindow.Owner = this;
             settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
+
+            //var x = new Settings(settings);
+            //var y = new Settings();
+
+            //MessageBox.Show((x == settings) ? "Y" : "N");
+
         }
 
         private void ShowSettings()
