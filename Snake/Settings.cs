@@ -14,6 +14,11 @@ namespace Snake
         public const double maxSideCells = 30;
         public const double minTickTimeMultiplier = 0.1;
         public const double maxTickTimeMultiplier = 10;
+
+        public const double defSpeed = 100;
+        public const double minSpeed = 10;
+        public const double maxSpeed = 500;
+
         public const double defaulSideCells = 15;
 
         // When SettingsFreezed flag is true, when the X flag is false, methods,
