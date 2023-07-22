@@ -27,8 +27,9 @@ namespace Snake
         private void AddSnake()
         {
             int r = Rows / 2;
-            
-            for (int c=1;c<=3;c++)
+            int cmax = (int)Math.Ceiling(Cols/2.0);
+
+            for (int c = cmax-2; c<= cmax; c++)
             {
                 Grid[r, c] = GridValue.Snake;
                 snakePositions.AddFirst(new Position(r, c));

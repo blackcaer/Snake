@@ -236,10 +236,18 @@ namespace Snake
             return settings.ApplySettings(newSettings);
         }
 
+        // Updates settings when new settings are confirmed in SettingsWindow
         void UpdateSettingsHandler(object sender, UpdateGameSettingsEventArgs e)
         {
             bool updateStatus = UpdateSettings(e.Settings);
-            MessageBox.Show("UpdateSettings handler, update status: " + updateStatus);
+            if (updateStatus)
+            {
+                CreateNewGame();
+            }else
+            {
+                MessageBox.Show("Error while trying to apply new settings, continuing ");
+            }
+            //MessageBox.Show("UpdateSettings handler, update status: " + updateStatus);
         }
 
     }

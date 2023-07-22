@@ -9,12 +9,12 @@ namespace Snake
     public class Settings
     {
         // Constants
-        public const int tickTimeStart = 100;
-        public const int minSideCells = 2;
-        public const int maxSideCells = 30;
+        public const double tickTimeStart = 100;
+        public const double minSideCells = 3;
+        public const double maxSideCells = 30;
         public const double minTickTimeMultiplier = 0.1;
         public const double maxTickTimeMultiplier = 10;
-        public const int defaulSideCells = 15;
+        public const double defaulSideCells = 15;
 
         // When SettingsFreezed flag is true, when the X flag is false, methods,
         // that change the properties of a setting return immediately
@@ -27,8 +27,8 @@ namespace Snake
 
         public Settings()
         {
-            Rows = defaulSideCells;
-            Cols = defaulSideCells;
+            Rows = (int)defaulSideCells;
+            Cols = (int)defaulSideCells;
         }
 
         public Settings(Settings settings)
@@ -82,8 +82,8 @@ namespace Snake
             if (SettingsFreezed)
                 return;
 
-            Rows = (NewRows >= minSideCells && NewRows <= maxSideCells) ? NewRows : defaulSideCells;
-            Cols = (NewCols >= minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells;
+            Rows = (int)((NewRows >= minSideCells && NewRows <= maxSideCells) ? NewRows : defaulSideCells);
+            Cols = (int)((NewCols >= minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells);
         }
 
         public static bool operator ==(Settings x, Settings y)
