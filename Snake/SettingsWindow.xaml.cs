@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.ComponentModel;
 
 namespace Snake
 {
@@ -35,12 +35,12 @@ namespace Snake
         private const string closingMonit = "Are you sure you want to close the window? Changes will be lost.";
         public Settings Settings { get; private set; }
 
-        public int SliderRowsValue 
+        public int SliderRowsValue
         {
             get { return Settings.Rows; }
-            set 
+            set
             {
-                Settings.SetRowsCols(value,Settings.Cols);
+                Settings.SetRowsCols(value, Settings.Cols);
 
                 OnPropertyChanged(nameof(SliderRowsValue));
             }
@@ -81,7 +81,7 @@ namespace Snake
             Settings = new Settings(OriginalSettings);
 
             InitializeComponent();
-            ApplySettingsToView(Settings); 
+            ApplySettingsToView(Settings);
         }
 
         public void ApplySettingsToView(Settings settings)
@@ -92,7 +92,7 @@ namespace Snake
         }
         private static double SpeedMtpToTickTimeMtp(double speedMtp)
         {
-            return 1/(speedMtp/10);
+            return 1 / (speedMtp / 10);
         }
         private static double TickTimeMtpToSpeedMtp(double tickTimeMtp)
         {
@@ -106,14 +106,10 @@ namespace Snake
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Hide();
-            //MessageBox.Show("Original: "+ OriginalSettings.ToString()+'\n'+
-            //   "Window's: " + Settings.ToString());
-
             if (Settings != OriginalSettings)
             {
-                var x = MessageBox.Show(closingMonit,"Confirmation",MessageBoxButton.YesNo,MessageBoxImage.Exclamation);
-            
+                var x = MessageBox.Show(closingMonit, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
                 if (x == MessageBoxResult.No)
                 {
                     e.Cancel = true;
@@ -123,28 +119,11 @@ namespace Snake
 
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
         {
-            // values from sliders etc -> vars
-            // vars -> new settings
-            // apply new settings
-            // reload grid
-
-            //Settings.SetRowsCols((int)Math.Round(SliderRows.Value), (int)Math.Round(SliderCols.Value));
-            //Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(SliderSpeed.Value));
-
             OnUpdateGameSettings(Settings);
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
         {
-            // values from sliders etc -> vars
-            // vars -> new settings
-            // discard new settings
-
-            //MainWindow main = (MainWindow)Application.Current.MainWindow;
-            //ApplySettingsToView(main.settings);
-
-            //string x = sliderRowsValue.ToString() +" "+ sliderColsValue.ToString() + " " + sliderSpeedMtpValue.ToString();
-            //MessageBox.Show(x);
             Close();
         }
     }

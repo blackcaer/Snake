@@ -77,21 +77,21 @@ namespace Snake
                 TickTimeMultiplier = NewTickTimeMultiplier;
         }
 
-        public void SetRowsCols(int NewRows,int NewCols)
+        public void SetRowsCols(int NewRows, int NewCols)
         {
             if (SettingsFreezed)
                 return;
 
             Rows = (NewRows >= minSideCells && NewRows <= maxSideCells) ? NewRows : defaulSideCells;
-            Cols = (NewCols>=minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells;
+            Cols = (NewCols >= minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells;
         }
 
-        public static bool operator == (Settings x,Settings y)
+        public static bool operator ==(Settings x, Settings y)
         {
-            return x.Equals(y); 
-        } 
+            return x.Equals(y);
+        }
 
-        public static bool operator != (Settings x, Settings y)
+        public static bool operator !=(Settings x, Settings y)
         {
             return !(x == y);
         }

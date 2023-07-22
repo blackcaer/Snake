@@ -45,7 +45,7 @@ namespace Snake
         {
             settings = new Settings();
             InitializeComponent();
-            CreateNewGame();   
+            CreateNewGame();
         }
         private void CreateNewGame()
         {
@@ -78,12 +78,6 @@ namespace Snake
             settingsWindow = new SettingsWindow(settings);
             settingsWindow.Owner = this;
             settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
-
-            //var x = new Settings(settings);
-            //var y = new Settings();
-
-            //MessageBox.Show((x == settings) ? "Y" : "N");
-
         }
 
         private void ShowSettings()
@@ -92,7 +86,7 @@ namespace Snake
             settingsWindow.ShowDialog();
             return;
         }
-         
+
         private async Task GameLoop(int tickTime)
         {
             while (!gameState.GameOver)
@@ -108,7 +102,7 @@ namespace Snake
             var rows = settings.Rows;
             var cols = settings.Cols;
 
-            Image[,] images = new Image[rows,cols];
+            Image[,] images = new Image[rows, cols];
             GameGrid.Rows = rows;
             GameGrid.Columns = cols;
             GameGrid.Width = GameGrid.Height * (cols / (double)rows);
@@ -117,10 +111,10 @@ namespace Snake
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    Image image = new Image 
-                    { 
+                    Image image = new Image
+                    {
                         Source = Images.Empty,
-                        RenderTransformOrigin = new Point(0.5,0.5)
+                        RenderTransformOrigin = new Point(0.5, 0.5)
                     };
 
                     images[r, c] = image;
@@ -139,14 +133,14 @@ namespace Snake
 
         private void DrawGrid()
         {
-            for (int r=0;r<settings.Rows;r++)
+            for (int r = 0; r < settings.Rows; r++)
             {
-                for (int c=0;c<settings.Cols;c++)
+                for (int c = 0; c < settings.Cols; c++)
                 {
                     GridValue gridVal = gameState.Grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
                     gridImages[r, c].RenderTransform = Transform.Identity;
-                } 
+                }
             }
         }
 
@@ -156,21 +150,22 @@ namespace Snake
             Image image = gridImages[headPos.Row, headPos.Col];
             image.Source = Images.Head;
             int rotation = dirToRotation[gameState.Dir];
-            image.RenderTransform=new RotateTransform(rotation);
+            image.RenderTransform = new RotateTransform(rotation);
 
         }
 
         private async Task DrawDeadSnake()
         {
             List<Position> positions = new List<Position>(gameState.SnakePositions());
-            for (int i=0;i<positions.Count;i++)
+            for (int i = 0; i < positions.Count; i++)
             {
                 Position pos = positions[i];
                 Image image = gridImages[pos.Row, pos.Col];
                 if (image.Source == Images.Body)
                 {
                     image.Source = Images.DeadBody;
-                }else
+                }
+                else
                 {
                     image.Source = Images.DeadHead;
                 }
@@ -181,11 +176,10 @@ namespace Snake
 
         private async Task ShowCountDown()
         {
-            for (int i=3;i>=1;i--)
+            for (int i = 3; i >= 1; i--)
             {
                 OverlayText.Text = i.ToString();
                 await Task.Delay(500);
-
             }
         }
 
@@ -246,7 +240,7 @@ namespace Snake
         void UpdateSettingsHandler(object sender, UpdateGameSettingsEventArgs e)
         {
             bool updateStatus = UpdateSettings(e.Settings);
-            MessageBox.Show("UpdateSettings handler, update status: "+updateStatus);
+            MessageBox.Show("UpdateSettings handler, update status: " + updateStatus);
         }
 
     }
