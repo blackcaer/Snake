@@ -193,7 +193,6 @@ namespace Snake
                 await RunGame();
                 gameRunning = false;
                 settings.UnfreezeSettings();
-                ShowSettings();
                 return;
             }
 
