@@ -65,7 +65,7 @@ namespace Snake
         }
         private int GetTickTime()
         {
-            return (int)(settings.TickTimeMultiplier * Settings.tickTimeStart);
+            return settings.TickTime;
         }
         /*private void setSideCells(int rows, int cols)
         {
@@ -247,7 +247,7 @@ namespace Snake
             {
                 MessageBox.Show("Error while trying to apply new settings, continuing ");
             }
-            //MessageBox.Show("UpdateSettings handler, update status: " + updateStatus);
+
         }
 
     }

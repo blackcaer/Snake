@@ -56,16 +56,15 @@ namespace Snake
             }
         }
 
-        public double SliderSpeedMtpValue
+        public double SliderSpeedValue
         {
-            get { return TickTimeMtpToSpeedMtp(Settings.TickTimeMultiplier); }
+            get { return Settings.Speed; }
             set
             {
-                Settings.SetTickTimeMultiplier(SpeedMtpToTickTimeMtp(value));
-                OnPropertyChanged(nameof(SliderSpeedMtpValue));
+                Settings.SetSpeed(value);
+                OnPropertyChanged(nameof(SliderSpeedValue));
             }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -88,15 +87,7 @@ namespace Snake
         {
             SliderRowsValue = settings.Rows;
             SliderColsValue = settings.Cols;
-            SliderSpeedMtpValue = TickTimeMtpToSpeedMtp(settings.TickTimeMultiplier);
-        }
-        private static double SpeedMtpToTickTimeMtp(double speedMtp)
-        {
-            return 1 / (speedMtp / 10);
-        }
-        private static double TickTimeMtpToSpeedMtp(double tickTimeMtp)
-        {
-            return (1 / tickTimeMtp) * 10;
+            SliderSpeedValue = settings.Speed;
         }
 
         protected virtual void OnUpdateGameSettings(Settings settings)
