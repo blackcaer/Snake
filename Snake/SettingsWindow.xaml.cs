@@ -111,6 +111,7 @@ namespace Snake
         private void ButtonSettingsOk_Click(object sender, RoutedEventArgs e)
         {
             OnUpdateGameSettings(Settings);
+            Close();
         }
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
