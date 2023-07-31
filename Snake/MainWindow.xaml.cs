@@ -189,10 +189,15 @@ namespace Snake
             if (!gameRunning)
             {
                 settings.FreezeSettings();
+                ButtonSettings.IsEnabled = false; 
                 gameRunning = true;
+
                 await RunGame();
+
                 gameRunning = false;
                 settings.UnfreezeSettings();
+                ButtonSettings.IsEnabled = true; 
+
                 return;
             }
 

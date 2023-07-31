@@ -11,18 +11,23 @@
 
     <Grid ShowGridLines="False">
         <Grid.Resources>
-            <Style x:Key="std_margin" TargetType="FrameworkElement">
-                <Setter Property="Margin" Value="10"/>
+            <Style x:Key="std_props" TargetType="Control">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontWeight" Value="normal"/>
+                
             </Style>
 
-            <Style x:Key="slider" TargetType="Slider" BasedOn="{StaticResource std_margin}">
+            <Style x:Key="slider" TargetType="Slider" BasedOn="{StaticResource std_props}">
 
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                
 
             </Style>
 
-            <Style x:Key="label" TargetType="Label" BasedOn="{StaticResource std_margin}">
+            <Style x:Key="label" TargetType="Label" BasedOn="{StaticResource std_props}">
 
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -47,7 +52,10 @@
 
             <Style x:Key="button" TargetType="Button">
                 <Setter Property="Background" Value="#55111111"/>
-
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontWeight" Value="normal"/>
+                
             </Style>
         </Grid.Resources>
         
@@ -89,11 +97,11 @@
 
         
         
-        <Border Style="{StaticResource border}" BorderThickness="2,1,1,2" Grid.Row="3" Grid.Column="0">
+        <Border Style="{StaticResource border}" BorderThickness="2,2,1,2" Grid.Row="3" Grid.Column="0">
             <Button Style="{StaticResource button}" x:Name="ButtonSettingsOk" Grid.Row="3" Grid.Column="0" Content="OK" Click="ButtonSettingsOk_Click"/>
         </Border>
 
-        <Border Style="{StaticResource border}" BorderThickness="1,1,2,2" Grid.Row="3" Grid.Column="1">
+        <Border Style="{StaticResource border}" BorderThickness="1,2,2,2" Grid.Row="3" Grid.Column="1">
             <Button Style="{StaticResource button}" x:Name="ButtonSettingsCancel" Grid.Row="3" Grid.Column="1" Content="Cancel" Click="ButtonSettingsCancel_Click"/>
         </Border>
 
