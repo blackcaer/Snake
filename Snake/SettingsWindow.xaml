@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
-        Title="SettingsWindow" Width="480" Height="260" Closing="Window_Closing"
+        Title="SettingsWindow" Width="510" Height="260" Closing="Window_Closing"
         ResizeMode="NoResize"
         >
 
@@ -16,7 +16,6 @@
                 <Setter Property="FontSize" Value="25"/>
                 <Setter Property="FontFamily" Value="Arial"/>
                 <Setter Property="FontWeight" Value="normal"/>
-                
             </Style>
 
             <Style x:Key="slider" TargetType="Slider" BasedOn="{StaticResource std_props}">
@@ -30,22 +29,21 @@
 
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                
             </Style>
             
             <Style x:Key="border" TargetType="Border">
                 <Setter Property="BorderBrush" Value="#111111"/>
-
+                <Setter Property="Panel.ZIndex" Value="-10"/>
+                
             </Style>
             
             <Style x:Key="border_label" TargetType="Border" BasedOn="{StaticResource border}">
                 <Setter Property="Background" Value="#11111111"/>
-
             </Style>
 
             <Style x:Key="border_slider" TargetType="Border" BasedOn="{StaticResource border}">
                 <Setter Property="Background" Value="#11111111"/>
-
+                
             </Style>
 
             <Style x:Key="button" TargetType="Button">
@@ -53,8 +51,20 @@
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontFamily" Value="Arial"/>
                 <Setter Property="FontWeight" Value="normal"/>
+            </Style>
+
+            <Style x:Key="textbox" TargetType="TextBox">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontWeight" Value="normal"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
                 
             </Style>
+            
         </Grid.Resources>
         
         <Grid.ColumnDefinitions>
@@ -68,6 +78,38 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+
+
+
+        <Border Style="{StaticResource border}" BorderThickness="2,2,1,2" Grid.Row="3" Grid.Column="0">
+            <Button Style="{StaticResource button}" x:Name="ButtonSettingsOk" Grid.Row="3" Grid.Column="0" Content="OK" Click="ButtonSettingsOk_Click"/>
+        </Border>
+
+        <Border Style="{StaticResource border}" BorderThickness="1,2,2,2" Grid.Row="3" Grid.Column="1">
+            <Button Style="{StaticResource button}" x:Name="ButtonSettingsCancel" Grid.Row="3" Grid.Column="1" Content="Cancel" Click="ButtonSettingsCancel_Click"/>
+        </Border>
+        
+        <Grid Grid.Column="1" Grid.RowSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Slider Grid.Row="0" Grid.Column="0" x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+            <Slider Grid.Row="1" Grid.Column="0" x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+            <Slider Grid.Row="2" Grid.Column="0" x:Name="SliderSpeed" Value="{Binding SliderSpeedValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="0.5" SmallChange="0.5" LargeChange="10" Minimum="{x:Static local:Settings.minSpeed}" Maximum="{x:Static local:Settings.maxSpeed}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+            
+            <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="NoWrap" Text="Nr" Width="auto" Style="{StaticResource textbox}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" TextWrapping="NoWrap" Text="Nr" Width="auto" Style="{StaticResource textbox}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="NoWrap" Text="Nr" Width="auto" Style="{StaticResource textbox}"/>
+
+        </Grid>
+
         <Border Style="{StaticResource border_label}" BorderThickness="2,2,1,1" Grid.Row="0" Grid.Column="0">
             <Label Content="Grid rows" Style="{StaticResource label}"/>
         </Border>
@@ -80,28 +122,11 @@
             <Label Content="Snake speed" Style="{StaticResource label}"/>
         </Border>
 
+        <Border Style="{StaticResource border_slider}" BorderThickness="1,2,2,1" Grid.Row="0" Grid.Column="1"/>
 
-        <Border Style="{StaticResource border_slider}" BorderThickness="1,2,2,1" Grid.Row="0" Grid.Column="1">
-            <Slider x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-        </Border>
+        <Border Style="{StaticResource border_slider}" BorderThickness="1,1,2,1" Grid.Row="1" Grid.Column="1"/>
 
-        <Border Style="{StaticResource border_slider}" BorderThickness="1,1,2,1" Grid.Row="1" Grid.Column="1">
-            <Slider x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-        </Border>
-
-        <Border Style="{StaticResource border_slider}" BorderThickness="1,1,2,1" Grid.Row="2" Grid.Column="1">
-            <Slider x:Name="SliderSpeed" Value="{Binding SliderSpeedValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="0.5" SmallChange="0.5" LargeChange="10" Minimum="{x:Static local:Settings.minSpeed}" Maximum="{x:Static local:Settings.maxSpeed}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-        </Border>
-
-        
-        
-        <Border Style="{StaticResource border}" BorderThickness="2,2,1,2" Grid.Row="3" Grid.Column="0">
-            <Button Style="{StaticResource button}" x:Name="ButtonSettingsOk" Grid.Row="3" Grid.Column="0" Content="OK" Click="ButtonSettingsOk_Click"/>
-        </Border>
-
-        <Border Style="{StaticResource border}" BorderThickness="1,2,2,2" Grid.Row="3" Grid.Column="1">
-            <Button Style="{StaticResource button}" x:Name="ButtonSettingsCancel" Grid.Row="3" Grid.Column="1" Content="Cancel" Click="ButtonSettingsCancel_Click"/>
-        </Border>
+        <Border Style="{StaticResource border_slider}" BorderThickness="1,1,2,1" Grid.Row="2" Grid.Column="1"/>
 
     </Grid>
 </Window>
