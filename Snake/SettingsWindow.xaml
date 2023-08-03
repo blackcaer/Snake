@@ -62,6 +62,7 @@
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="MaxLength" Value="2"/>
                 
             </Style>
             
@@ -112,7 +113,7 @@
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
             <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
-
+            
         </Grid>
 
         <Border Style="{StaticResource border}" BorderThickness="2,2,1,2" Grid.Row="3" Grid.Column="0">
