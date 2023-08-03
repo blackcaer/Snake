@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +32,7 @@ namespace Snake
     {
         public delegate void UpdateGameSettingsEventHandler(object sender, UpdateGameSettingsEventArgs e);
         public event UpdateGameSettingsEventHandler UpdateGameSettingsEvent;
+        public event PropertyChangedEventHandler PropertyChanged;
         private readonly Settings OriginalSettings;
         private const string closingMonit = "Are you sure you want to close the window? Changes will be lost.";
         public Settings Settings { get; private set; }
@@ -41,8 +43,7 @@ namespace Snake
             set
             {
                 Settings.SetRowsCols(value, Settings.Cols);
-
-                OnPropertyChanged(nameof(SliderRowsValue));
+                OnPropertyChanged();
             }
         }
 
@@ -52,7 +53,7 @@ namespace Snake
             set
             {
                 Settings.SetRowsCols(Settings.Rows, value);
-                OnPropertyChanged(nameof(SliderColsValue));
+                OnPropertyChanged();
             }
         }
 
@@ -62,12 +63,11 @@ namespace Snake
             set
             {
                 Settings.SetSpeed(value);
-                OnPropertyChanged(nameof(SliderSpeedValue));
+                OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -116,7 +116,8 @@ namespace Snake
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            SliderRowsValue = SliderRowsValue + 5;
+            //Close();
         }
     }
 }
