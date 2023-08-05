@@ -79,6 +79,8 @@ namespace Snake
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Settings = new Settings(OriginalSettings);
 
+            
+
             InitializeComponent();
             ApplySettingsToView(Settings);
         }
