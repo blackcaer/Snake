@@ -12,26 +12,6 @@ using System.Windows.Input;
 
 namespace Snake
 {
-    /*
-    public class StringToDoubleConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value.ToString();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            string stringValue = (string)value;
-            if (double.TryParse(stringValue, NumberStyles.Float, culture, out double result))
-            {
-                return result;
-            }
-            return DependencyProperty.UnsetValue;
-        }
-    }
-    */
-
     public class DigitBox : TextBox
     {
         public static readonly DependencyProperty AllowedSeparatorProperty =
