@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,59 +12,171 @@ using System.Windows.Input;
 
 namespace Snake
 {
-    public class DigitBox : TextBox
+    /*
+    public class StringToDoubleConverter : IValueConverter
     {
-        private Key keysToBePassedFuther = Key.Return;
-        public enum allowedSeparator { None, Dot, PeriodAndCommaToPeriod};
-        public DigitBox()
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            TextChanged += new TextChangedEventHandler(OnTextChanged);
-            KeyDown += new KeyEventHandler(OnKeyDown);
-            AllowSeparator(allowedSeparator.PeriodAndCommaToPeriod);
+            return value.ToString();
         }
 
-        public void AllowSeparator(allowedSeparator alsep)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            string stringValue = (string)value;
+            if (double.TryParse(stringValue, NumberStyles.Float, culture, out double result))
+            {
+                return result;
+            }
+            return DependencyProperty.UnsetValue;
+        }
+    }
+    */
+
+    public class DigitBox : TextBox
+    {
+        private const string RegexAllowedNone = "^[0-9]*$";
+        private const string RegexAllowedPeriod = "^[0-9.]*$";
+        private string RegexAllowed = RegexAllowedNone;
+        private Key OtherAcceptedKeys = Key.Return;
+        public enum AllowedSeparator { None, Period, PeriodAndConvertToPeriod };
+        new public string Text
+        {
+            get {return base.Text;}
+            set
+            {
+                base.Text = HandleTextInput(value);
+            }
+        }
+
+        public DigitBox()
+        {
+            /*
+            BindingExpression bindingExpression = GetBindingExpression(TextProperty);
+            if (bindingExpression != null)
+            {
+                Binding binding = bindingExpression.ParentBinding;
+                if (binding != null)
+                {
+                    binding.Converter ??= new StringToDoubleConverter();
+                }
+            }
+            */
+
+            TextChanged += new TextChangedEventHandler(OnTextChanged);
+            KeyDown += new KeyEventHandler(OnKeyDown);
+
+            RegexAllowed = RegexAllowedNone;    // default
+            AllowSeparator(AllowedSeparator.PeriodAndConvertToPeriod);
+        }
+
+        public void AllowSeparator(AllowedSeparator alsep)
+        {
+            
             switch (alsep)
             {
-                case allowedSeparator.None:
-                    return; 
-                case allowedSeparator.Dot:
-                    keysToBePassedFuther |= Key.OemPeriod;
+                case AllowedSeparator.None:
+                    RegexAllowed = RegexAllowedNone;
+                    return;
+                case AllowedSeparator.Period:
+                    RegexAllowed = RegexAllowedPeriod;
+                    OtherAcceptedKeys |= Key.OemPeriod;
                     break;
-                case allowedSeparator.PeriodAndCommaToPeriod:
-                    keysToBePassedFuther |= Key.OemPeriod;
-                    keysToBePassedFuther |= Key.OemComma;
+                case AllowedSeparator.PeriodAndConvertToPeriod:
+                    RegexAllowed = RegexAllowedPeriod;
+                    OtherAcceptedKeys |= Key.OemPeriod;
+                    OtherAcceptedKeys |= Key.OemComma;
+                    OtherAcceptedKeys |= Key.Decimal;
                     break;
+                default:
+                    goto case AllowedSeparator.None;
             }
         }
 
         protected void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-
+            Text = Text; // Invoking setter with HandleTextInput function to avoid redundancy;
         }
+        private string HandleTextInput(string text)
+        {
+            text = LeaveOnlyAllowedCharacters(text);
+
+            if (NumOfPeriodsInText() > 1)
+            {
+                text = LeaveOnlyFirstPeriod(text);
+            }
+
+            if (text == "" || text == ".")
+                text = "0";
+            return text;
+        }
+
+        private string LeaveOnlyFirstPeriod(string text)
+        {
+            return text.Replace(".", "").Insert(text.IndexOf("."), ".");
+        }
+
+        private string LeaveOnlyAllowedCharacters(string text)
+        {
+            // Replace comma with period
+            text = text.Replace(',','.');
+
+            // Remove not allowed characters
+            foreach (char c in text)
+            {
+                if (!Regex.IsMatch(c.ToString(),RegexAllowed))
+                {
+                    text = text.Replace(c.ToString(), "");
+                }
+            }
+            return text;
+        }
+
         protected void OnKeyDown(object sender, KeyEventArgs e)
         {
             Key key = e.Key;
-            if ((keysToBePassedFuther & key) == key)
-            {
-                if (key == Key.OemComma)    // replace comma
-                {
-                    e.Handled = true;
-                    TextCompositionManager.StartComposition(
-                    new TextComposition(InputManager.Current, this, "."));
-                }
-                return; 
-            }
 
-            if (!isKeyNumber(key))
+            if (!CheckThisKeyFuther(key,e))
+                return;
+
+            if (!IsKeyNumber(key) || e.KeyboardDevice.Modifiers != ModifierKeys.None)
             {
-                //Trace.WriteLine(key + " failed");
-                e.Handled = true;   // If not number and not keysToBePassedFuther, ignore
+                e.Handled = true;   // If not number and not OtherAcceptedKeys, ignore
+                return;
             }
         }
 
-        private bool isKeyNumber(Key key)
+        /// <summary>
+        /// Checks for special characters (OtherAcceptedKeys) and if they can be used (i.e. is period already in Text)
+        /// </summary>
+        /// <returns> False when all the job is done inside that method, 
+        /// true if key needs futher checking </returns>
+        private bool CheckThisKeyFuther(Key key, KeyEventArgs e)
+        {
+            if ((OtherAcceptedKeys & key) != key)
+                return true;    // numbers/letters etc
+
+            if (((Key.OemPeriod | Key.OemComma | Key.Decimal) & key) != key) // if not separator there's no need for futher checking
+                return false;
+
+            if (NumOfPeriodsInText()!=0) // Period is already in text so mark as handled
+            {
+                e.Handled = true;
+                return false;
+            }
+
+            if (key == Key.OemComma || key == Key.Decimal)
+            {
+                // Handle comma event and replace with period:
+                e.Handled = true;
+                TextCompositionManager.StartComposition(
+                new TextComposition(InputManager.Current, this, "."));
+                return false;
+            }
+
+            return false; // If just period
+        }
+
+        private static bool IsKeyNumber(Key key)
         {
             if (key < Key.D0 || key>Key.D9)
             {
@@ -75,6 +188,18 @@ namespace Snake
             return true;
         }
 
+        private int NumOfPeriodsInText()
+        {
+            int i = 0;
+            foreach (char c in Text)
+            {
+                if(c=='.')
+                {
+                    i += 1;
+                }
+            }
+            return i;
+        }
     }
 }
 
