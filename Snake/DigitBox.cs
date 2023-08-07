@@ -41,7 +41,7 @@ namespace Snake
         public enum AllowedSeparator { None, Period, PeriodAndConvertToPeriod };
         new public string Text
         {
-            get {return base.Text;}
+            get { return base.Text; }
             set
             {
                 base.Text = HandleTextInput(value);
@@ -50,18 +50,6 @@ namespace Snake
 
         public DigitBox()
         {
-            /*
-            BindingExpression bindingExpression = GetBindingExpression(TextProperty);
-            if (bindingExpression != null)
-            {
-                Binding binding = bindingExpression.ParentBinding;
-                if (binding != null)
-                {
-                    binding.Converter ??= new StringToDoubleConverter();
-                }
-            }
-            */
-
             TextChanged += new TextChangedEventHandler(OnTextChanged);
             KeyDown += new KeyEventHandler(OnKeyDown);
 
@@ -71,7 +59,7 @@ namespace Snake
 
         public void AllowSeparator(AllowedSeparator alsep)
         {
-            
+
             switch (alsep)
             {
                 case AllowedSeparator.None:
@@ -96,6 +84,19 @@ namespace Snake
         {
             Text = Text; // Invoking setter with HandleTextInput function to avoid redundancy;
         }
+        protected void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            Key key = e.Key;
+
+            if (!CheckThisKeyFuther(key, e))
+                return;
+
+            if (!IsKeyNumber(key) || e.KeyboardDevice.Modifiers != ModifierKeys.None)
+            {
+                e.Handled = true;   // If not number and not OtherAcceptedKeys, ignore
+                return;
+            }
+        }
         private string HandleTextInput(string text)
         {
             text = LeaveOnlyAllowedCharacters(text);
@@ -118,31 +119,17 @@ namespace Snake
         private string LeaveOnlyAllowedCharacters(string text)
         {
             // Replace comma with period
-            text = text.Replace(',','.');
+            text = text.Replace(',', '.');
 
             // Remove not allowed characters
             foreach (char c in text)
             {
-                if (!Regex.IsMatch(c.ToString(),RegexAllowed))
+                if (!Regex.IsMatch(c.ToString(), RegexAllowed))
                 {
                     text = text.Replace(c.ToString(), "");
                 }
             }
             return text;
-        }
-
-        protected void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            Key key = e.Key;
-
-            if (!CheckThisKeyFuther(key,e))
-                return;
-
-            if (!IsKeyNumber(key) || e.KeyboardDevice.Modifiers != ModifierKeys.None)
-            {
-                e.Handled = true;   // If not number and not OtherAcceptedKeys, ignore
-                return;
-            }
         }
 
         /// <summary>
@@ -158,7 +145,7 @@ namespace Snake
             if (((Key.OemPeriod | Key.OemComma | Key.Decimal) & key) != key) // if not separator there's no need for futher checking
                 return false;
 
-            if (NumOfPeriodsInText()!=0) // Period is already in text so mark as handled
+            if (NumOfPeriodsInText() != 0) // Period is already in text so mark as handled
             {
                 e.Handled = true;
                 return false;
@@ -178,7 +165,7 @@ namespace Snake
 
         private static bool IsKeyNumber(Key key)
         {
-            if (key < Key.D0 || key>Key.D9)
+            if (key < Key.D0 || key > Key.D9)
             {
                 if (key < Key.NumPad0 || key > Key.NumPad9)
                 {
@@ -193,7 +180,7 @@ namespace Snake
             int i = 0;
             foreach (char c in Text)
             {
-                if(c=='.')
+                if (c == '.')
                 {
                     i += 1;
                 }
