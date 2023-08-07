@@ -12,6 +12,13 @@ using System.Windows.Input;
 
 namespace Snake
 {
+    /*
+    public class StringToDoubleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.ToString();
+        }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -27,11 +34,23 @@ namespace Snake
 
     public class DigitBox : TextBox
     {
+        public static readonly DependencyProperty AllowedSeparatorProperty =
+            DependencyProperty.Register(
+                "AllowedSeparator",
+                typeof(SeparatorType),
+                typeof(DigitBox),
+                new PropertyMetadata(SeparatorType.None,new PropertyChangedCallback(AllowSeparator)));
+        public SeparatorType AllowedSeparator
+        {
+            get => (SeparatorType)GetValue(AllowedSeparatorProperty); 
+            set => SetValue(AllowedSeparatorProperty, value);
+        }
+
         private const string RegexAllowedNone = "^[0-9]*$";
         private const string RegexAllowedPeriod = "^[0-9.]*$";
         private string RegexAllowed = RegexAllowedNone;
         private Key OtherAcceptedKeys = Key.Return;
-        public enum AllowedSeparator { None, Period, PeriodAndConvertToPeriod };
+        public enum SeparatorType { None, Period, PeriodAndConvertToPeriod };
         new public string Text
         {
             get { return base.Text; }
@@ -45,34 +64,33 @@ namespace Snake
         {
             TextChanged += new TextChangedEventHandler(OnTextChanged);
             KeyDown += new KeyEventHandler(OnKeyDown);
-
             RegexAllowed = RegexAllowedNone;    // default
-            AllowSeparator(AllowedSeparator.PeriodAndConvertToPeriod);
+            //AllowSeparator(AllowedSeparator);
         }
 
-        public void AllowSeparator(AllowedSeparator alsep)
+        private static void AllowSeparator(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            DigitBox currDigitBox = d as DigitBox;
 
-            switch (alsep)
+            switch (e.NewValue)
             {
-                case AllowedSeparator.None:
-                    RegexAllowed = RegexAllowedNone;
+                case SeparatorType.None:
+                    currDigitBox.RegexAllowed = RegexAllowedNone;
                     return;
-                case AllowedSeparator.Period:
-                    RegexAllowed = RegexAllowedPeriod;
-                    OtherAcceptedKeys |= Key.OemPeriod;
+                case SeparatorType.Period:
+                    currDigitBox.RegexAllowed = RegexAllowedPeriod;
+                    currDigitBox.OtherAcceptedKeys |= Key.OemPeriod;
                     break;
-                case AllowedSeparator.PeriodAndConvertToPeriod:
-                    RegexAllowed = RegexAllowedPeriod;
-                    OtherAcceptedKeys |= Key.OemPeriod;
-                    OtherAcceptedKeys |= Key.OemComma;
-                    OtherAcceptedKeys |= Key.Decimal;
+                case SeparatorType.PeriodAndConvertToPeriod:
+                    currDigitBox.RegexAllowed = RegexAllowedPeriod;
+                    currDigitBox.OtherAcceptedKeys |= Key.OemPeriod;
+                    currDigitBox.OtherAcceptedKeys |= Key.OemComma;
+                    currDigitBox.OtherAcceptedKeys |= Key.Decimal;
                     break;
                 default:
-                    goto case AllowedSeparator.None;
+                    goto case SeparatorType.None;
             }
         }
-
         protected void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Text = Text; // Invoking setter with HandleTextInput function to avoid redundancy;
@@ -103,12 +121,10 @@ namespace Snake
                 text = "0";
             return text;
         }
-
         private string LeaveOnlyFirstPeriod(string text)
         {
             return text.Replace(".", "").Insert(text.IndexOf("."), ".");
         }
-
         private string LeaveOnlyAllowedCharacters(string text)
         {
             // Replace comma with period
@@ -124,7 +140,6 @@ namespace Snake
             }
             return text;
         }
-
         /// <summary>
         /// Checks for special characters (OtherAcceptedKeys) and if they can be used (i.e. is period already in Text)
         /// </summary>
@@ -155,7 +170,6 @@ namespace Snake
 
             return false; // If just period
         }
-
         private static bool IsKeyNumber(Key key)
         {
             if (key < Key.D0 || key > Key.D9)
@@ -167,7 +181,6 @@ namespace Snake
             }
             return true;
         }
-
         private int NumOfPeriodsInText()
         {
             int i = 0;

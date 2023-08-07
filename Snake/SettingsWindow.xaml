@@ -53,7 +53,7 @@
                 <Setter Property="FontWeight" Value="normal"/>
             </Style>
 
-            <Style x:Key="textbox" TargetType="TextBox">
+            <Style x:Key="{x:Type local:DigitBox}" TargetType="local:DigitBox">
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="FontSize" Value="14"/>
@@ -62,7 +62,7 @@
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="MaxLength" Value="5"/>
+                <Setter Property="MaxLength" Value="7"/>
                 
             </Style>
             
@@ -110,9 +110,9 @@
             <Slider Grid.Row="1" Grid.Column="0" x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
             <Slider Grid.Row="2" Grid.Column="0" x:Name="SliderSpeed" Value="{Binding SliderSpeedValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="5" SmallChange="5" LargeChange="10" Minimum="{x:Static local:Settings.minSpeed}" Maximum="{x:Static local:Settings.maxSpeed}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
 
-            <local:DigitBox x:Name="DigitBoxRows" Grid.Row="0" Grid.Column="1" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
-            <local:DigitBox x:Name="DigitBoxCols" Grid.Row="1" Grid.Column="1" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
-            <local:DigitBox x:Name="DigitBoxSpeed" Grid.Row="2" Grid.Column="1" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
+            <local:DigitBox x:Name="DigitBoxRows" Grid.Row="0" Grid.Column="1" MaxLength="2" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto"/>
+            <local:DigitBox x:Name="DigitBoxCols" Grid.Row="1" Grid.Column="1" MaxLength="2" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" />
+            <local:DigitBox x:Name="DigitBoxSpeed" Grid.Row="2" Grid.Column="1" AllowedSeparator="PeriodAndConvertToPeriod" MaxLength="5" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" />
             
         </Grid>
 
