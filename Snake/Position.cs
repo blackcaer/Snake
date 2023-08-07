@@ -14,7 +14,7 @@ namespace Snake
 
         public Position Translate(Direction dir)
         {
-            return new Position(Row+dir.RowOffset, Col+dir.ColumnOffset);
+            return new Position(Row + dir.RowOffset, Col + dir.ColumnOffset);
         }
 
     }

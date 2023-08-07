@@ -22,7 +22,7 @@
 
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                
+
             </Style>
 
             <Style x:Key="label" TargetType="Label" BasedOn="{StaticResource std_props}">
@@ -30,20 +30,20 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-            
+
             <Style x:Key="border" TargetType="Border">
                 <Setter Property="BorderBrush" Value="#111111"/>
                 <Setter Property="Panel.ZIndex" Value="-10"/>
-                
+
             </Style>
-            
+
             <Style x:Key="border_label" TargetType="Border" BasedOn="{StaticResource border}">
                 <Setter Property="Background" Value="#11111111"/>
             </Style>
 
             <Style x:Key="border_slider" TargetType="Border" BasedOn="{StaticResource border}">
                 <Setter Property="Background" Value="#11111111"/>
-                
+
             </Style>
 
             <Style x:Key="button" TargetType="Button">
@@ -63,11 +63,11 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="MaxLength" Value="7"/>
-                
+
             </Style>
-            
+
         </Grid.Resources>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -94,7 +94,7 @@
         <Border Style="{StaticResource border_label}" BorderThickness="2,1,1,1" Grid.Row="2" Grid.Column="0">
             <Label Content="Snake speed" Style="{StaticResource label}"/>
         </Border>
-        
+
         <Grid Grid.Column="1" Grid.RowSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
@@ -113,7 +113,7 @@
             <local:DigitBox x:Name="DigitBoxRows" Grid.Row="0" Grid.Column="1" MaxLength="2" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto"/>
             <local:DigitBox x:Name="DigitBoxCols" Grid.Row="1" Grid.Column="1" MaxLength="2" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" />
             <local:DigitBox x:Name="DigitBoxSpeed" Grid.Row="2" Grid.Column="1" AllowedSeparator="PeriodAndConvertToPeriod" MaxLength="5" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" />
-            
+
         </Grid>
 
         <Border Style="{StaticResource border}" BorderThickness="2,2,1,2" Grid.Row="3" Grid.Column="0">

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Snake
+﻿namespace Snake
 {
     public class Settings
     {
@@ -17,7 +11,7 @@ namespace Snake
         public const double defSpeed = 100;
         public const double minSpeed = 25;
         public const double maxSpeed = 300;
-        
+
         // When SettingsFreezed flag is true, methods
         // that change the properties of a setting return immediately
         public bool SettingsFreezed { get; private set; } = false;
@@ -25,11 +19,12 @@ namespace Snake
         // Properties which can be changed while SettingsFreezed is false:
         public double TickTimeMultiplier { get; private set; } = 1.0;
         public double Speed;
-        public int TickTime 
-        { 
-            get {
-                return (int)(tickTimeStart/(Speed/100)); 
-            } 
+        public int TickTime
+        {
+            get
+            {
+                return (int)(tickTimeStart / (Speed / 100));
+            }
         }
         public int Rows { get; private set; }
         public int Cols { get; private set; }
@@ -80,10 +75,11 @@ namespace Snake
             if (SettingsFreezed)
                 return;
 
-            if (speed>maxSpeed)
+            if (speed > maxSpeed)
             {
                 Speed = maxSpeed;
-            }else if(speed<minSpeed)
+            }
+            else if (speed < minSpeed)
             {
                 Speed = minSpeed;
             }

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Snake
 {
@@ -189,14 +181,14 @@ namespace Snake
             if (!gameRunning)
             {
                 settings.FreezeSettings();
-                ButtonSettings.IsEnabled = false; 
+                ButtonSettings.IsEnabled = false;
                 gameRunning = true;
 
                 await RunGame();
 
                 gameRunning = false;
                 settings.UnfreezeSettings();
-                ButtonSettings.IsEnabled = true; 
+                ButtonSettings.IsEnabled = true;
 
                 return;
             }
@@ -248,7 +240,8 @@ namespace Snake
             if (updateStatus)
             {
                 CreateNewGame();
-            }else
+            }
+            else
             {
                 MessageBox.Show("Error while trying to apply new settings, continuing ");
             }

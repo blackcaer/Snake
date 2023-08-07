@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,10 +13,10 @@ namespace Snake
                 "AllowedSeparator",
                 typeof(SeparatorType),
                 typeof(DigitBox),
-                new PropertyMetadata(SeparatorType.None,new PropertyChangedCallback(AllowSeparator)));
+                new PropertyMetadata(SeparatorType.None, new PropertyChangedCallback(AllowSeparator)));
         public SeparatorType AllowedSeparator
         {
-            get => (SeparatorType)GetValue(AllowedSeparatorProperty); 
+            get => (SeparatorType)GetValue(AllowedSeparatorProperty);
             set => SetValue(AllowedSeparatorProperty, value);
         }
 
@@ -45,7 +39,6 @@ namespace Snake
             TextChanged += new TextChangedEventHandler(OnTextChanged);
             KeyDown += new KeyEventHandler(OnKeyDown);
             RegexAllowed = RegexAllowedNone;    // default
-            //AllowSeparator(AllowedSeparator);
         }
 
         private static void AllowSeparator(DependencyObject d, DependencyPropertyChangedEventArgs e)
