@@ -18,7 +18,7 @@
                 <Setter Property="FontWeight" Value="normal"/>
             </Style>
 
-            <Style x:Key="slider" TargetType="Slider" BasedOn="{StaticResource std_props}">
+            <Style x:Key="{x:Type Slider}" TargetType="Slider" BasedOn="{StaticResource std_props}">
 
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -106,14 +106,13 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Slider Grid.Row="0" Grid.Column="0" x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-            <Slider Grid.Row="1" Grid.Column="0" x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
-            <Slider Grid.Row="2" Grid.Column="0" x:Name="SliderSpeed" Value="{Binding SliderSpeedValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="5" SmallChange="5" LargeChange="10" Minimum="{x:Static local:Settings.minSpeed}" Maximum="{x:Static local:Settings.maxSpeed}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" Style="{StaticResource slider}"/>
+            <Slider Grid.Row="0" Grid.Column="0" x:Name="SliderRows" Value="{Binding SliderRowsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+            <Slider Grid.Row="1" Grid.Column="0" x:Name="SliderCols" Value="{Binding SliderColsValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" SmallChange="1" LargeChange="5" Minimum="{x:Static local:Settings.minSideCells}" Maximum="{x:Static local:Settings.maxSideCells}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+            <Slider Grid.Row="2" Grid.Column="0" x:Name="SliderSpeed" Value="{Binding SliderSpeedValue, Mode=TwoWay}" IsSnapToTickEnabled="True" TickPlacement="None" TickFrequency="5" SmallChange="5" LargeChange="10" Minimum="{x:Static local:Settings.minSpeed}" Maximum="{x:Static local:Settings.maxSpeed}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
-            <!--<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>-->
-            <local:DigitBox Grid.Row="2" Grid.Column="1" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
+            <local:DigitBox x:Name="DigitBoxRows" Grid.Row="0" Grid.Column="1" Text="{Binding SliderRowsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
+            <local:DigitBox x:Name="DigitBoxCols" Grid.Row="1" Grid.Column="1" Text="{Binding SliderColsValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
+            <local:DigitBox x:Name="DigitBoxSpeed" Grid.Row="2" Grid.Column="1" Text="{Binding SliderSpeedValue, Mode=TwoWay}" TextWrapping="NoWrap" Width="auto" Style="{StaticResource textbox}"/>
             
         </Grid>
 
