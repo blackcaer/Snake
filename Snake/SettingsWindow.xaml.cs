@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -79,8 +80,6 @@ namespace Snake
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Settings = new Settings(OriginalSettings);
 
-            
-
             InitializeComponent();
             ApplySettingsToView(Settings);
         }
@@ -118,8 +117,7 @@ namespace Snake
 
         private void ButtonSettingsCancel_Click(object sender, RoutedEventArgs e)
         {
-            SliderRowsValue = SliderRowsValue + 5;
-            //Close();
+            Close();
         }
     }
 }
