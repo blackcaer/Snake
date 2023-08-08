@@ -17,7 +17,47 @@
         KeyDown="Window_KeyDown"
         >
     <Window.Resources>
-        <local:MarginConverter x:Key="marginConverter"></local:MarginConverter>
+        <local:ValToLRMarginConverter x:Key="marginConverter"></local:ValToLRMarginConverter>
+
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"> 
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" >
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="AliceBlue" Opacity="0.8"/>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" >
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="DeepSkyBlue" Opacity="0.7"/>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter TargetName="ButtonBorder" Property="BorderThickness" >
+                                    <Setter.Value>
+                                        <Thickness Right="1" Top="1" Left="1" Bottom="1"/>
+                                    </Setter.Value>
+                                    
+                                </Setter>
+                                
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
     
     <Viewbox>
@@ -27,11 +67,13 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="ButtonSettings" BorderBrush="Transparent" Grid.Row="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="ButtonSettings_Click" Height="40" Width="40">
+            <Button x:Name="ButtonSettings" Style="{StaticResource CustomButtonStyle}" BorderBrush="Transparent" Grid.Row="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="ButtonSettings_Click" Height="40" Width="40">
                 <Button.Background>
                     <SolidColorBrush Color="Transparent"/>
                 </Button.Background>
+
                 <Image Source="/assets/SettingsIcon.png"></Image>
+
             </Button>
 
             <TextBlock x:Name="ScoreText"

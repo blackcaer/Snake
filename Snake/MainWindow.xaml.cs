@@ -8,14 +8,12 @@ using System.Windows.Media;
 
 namespace Snake
 {
-    public class MarginConverter : IValueConverter
+    public class ValToLRMarginConverter : IValueConverter
     {
-
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return new Thickness(System.Convert.ToDouble(value), 0, System.Convert.ToDouble(value), 0);
         }
-
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return null;
