@@ -8,7 +8,8 @@
         Title="SettingsWindow" Width="510" Height="260" Closing="Window_Closing"
         ResizeMode="NoResize"
         >
-
+    
+    
     <Grid ShowGridLines="False">
         <Grid.Resources>
             <Style x:Key="std_props" TargetType="Control">
@@ -19,14 +20,11 @@
             </Style>
 
             <Style x:Key="{x:Type Slider}" TargetType="Slider" BasedOn="{StaticResource std_props}">
-
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-
             </Style>
 
             <Style x:Key="label" TargetType="Label" BasedOn="{StaticResource std_props}">
-
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
@@ -34,16 +32,19 @@
             <Style x:Key="border" TargetType="Border">
                 <Setter Property="BorderBrush" Value="#111111"/>
                 <Setter Property="Panel.ZIndex" Value="-10"/>
-
             </Style>
 
             <Style x:Key="border_label" TargetType="Border" BasedOn="{StaticResource border}">
-                <Setter Property="Background" Value="#11111111"/>
+                <Setter Property="Background" Value="#F2F2F2"/>
             </Style>
 
             <Style x:Key="border_slider" TargetType="Border" BasedOn="{StaticResource border}">
-                <Setter Property="Background" Value="#11111111"/>
-
+                <Setter Property="Background" Value="#F2F2F2"/> 
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#E0E0E0"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
             <Style x:Key="button" TargetType="Button">
@@ -63,6 +64,7 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="MaxLength" Value="7"/>
+                <Setter Property="Foreground" Value="Black"/>
 
             </Style>
 
