@@ -16,6 +16,7 @@
     <None Remove="assets\Food.png" />
     <None Remove="assets\Head.png" />
     <None Remove="assets\icon.ico" />
+    <None Remove="assets\SettingsIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
     <Resource Include="assets\Food.png" />
     <Resource Include="assets\Head.png" />
     <Resource Include="assets\icon.ico" />
+    <Resource Include="assets\SettingsIcon.png" />
   </ItemGroup>
 
 </Project>

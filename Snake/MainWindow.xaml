@@ -16,13 +16,23 @@
         
         KeyDown="Window_KeyDown"
         >
-
+    <Window.Resources>
+        <local:MarginConverter x:Key="marginConverter"></local:MarginConverter>
+    </Window.Resources>
+    
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+
+            <Button x:Name="ButtonSettings" BorderBrush="Transparent" Grid.Row="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="ButtonSettings_Click" Height="40" Width="40">
+                <Button.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Button.Background>
+                <Image Source="/assets/SettingsIcon.png"></Image>
+            </Button>
 
             <TextBlock x:Name="ScoreText"
                    HorizontalAlignment="Center"
@@ -39,7 +49,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 RenderOptions.EdgeMode="Aliased"
-                Margin="20,0,20,20">
+                Margin="{Binding ElementName=ButtonSettings, Path=ActualWidth, Converter={StaticResource marginConverter}}"
+                >
 
                 <UniformGrid x:Name="GameGrid"
                          Width="400"
@@ -49,7 +60,6 @@
                          RenderOptions.BitmapScalingMode="HighQuality"
                          />
             </Border>
-
 
             <Border x:Name="Overlay"
                     Grid.Row="1"
@@ -67,11 +77,6 @@
             </Border>
 
 
-            <Button x:Name="ButtonSettings" HorizontalAlignment="Left" Margin="-151,6,0,0" VerticalAlignment="Top" Click="ButtonSettings_Click" Height="30" Width="30" >
-                <Button.Background>
-                    <ImageBrush ImageSource="/assets/Body.png"/>
-                </Button.Background>
-            </Button>
         </Grid>
     </Viewbox>
 </Window>
