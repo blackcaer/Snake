@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Snake
 {
@@ -107,5 +109,7 @@ namespace Snake
         {
             Close();
         }
+
+
     }
 }
