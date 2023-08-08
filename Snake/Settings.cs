@@ -10,7 +10,7 @@
 
         public const double defSpeed = 100;
         public const double minSpeed = 25;
-        public const double maxSpeed = 300;
+        public const double maxSpeed = 400;
 
         // When SettingsFreezed flag is true, methods
         // that change the properties of a setting return immediately
