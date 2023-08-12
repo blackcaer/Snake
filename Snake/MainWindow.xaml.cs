@@ -240,6 +240,8 @@ namespace Snake
             await DrawDeadSnake();
             await Task.Delay(1000);
             OverlayScore.Visibility = Visibility.Visible;
+            ScoreValue.Text = gameState.Score.ToString();
+
             PressToStartText.Text = "PRESS ANY KEY TO START";
             OverlayPressToStart.Visibility = Visibility.Visible;
             
