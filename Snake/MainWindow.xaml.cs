@@ -63,7 +63,9 @@ namespace Snake
             int tickTime = GetTickTime();
             Draw();
             await ShowCountDown();
-            Overlay.Visibility = Visibility.Hidden;
+            OverlayScore.Visibility = Visibility.Hidden;
+            OverlayPressToStart.Visibility = Visibility.Hidden;
+
             await GameLoop(tickTime);
             await ShowGameOver();
             CreateNewGame();
@@ -183,7 +185,7 @@ namespace Snake
         {
             for (int i = 3; i >= 1; i--)
             {
-                OverlayText.Text = i.ToString();
+                PressToStartText.Text = i.ToString();
                 await Task.Delay(500);
             }
         }
@@ -237,8 +239,10 @@ namespace Snake
         {
             await DrawDeadSnake();
             await Task.Delay(1000);
-            Overlay.Visibility = Visibility.Visible;
-            OverlayText.Text = "PRESS ANY KEY TO START";
+            OverlayScore.Visibility = Visibility.Visible;
+            PressToStartText.Text = "PRESS ANY KEY TO START";
+            OverlayPressToStart.Visibility = Visibility.Visible;
+            
         }
 
         public bool UpdateSettings(Settings newSettings)

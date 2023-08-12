@@ -13,7 +13,6 @@
         Icon="Assets/icon.ico"
         MinHeight="300"
         MinWidth="300"
-        
         KeyDown="Window_KeyDown"
         >
     <Window.Resources>
@@ -24,7 +23,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"> 
+                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -45,9 +44,9 @@
                                     <Setter.Value>
                                         <Thickness Right="1" Top="1" Left="1" Bottom="1"/>
                                     </Setter.Value>
-                                    
+
                                 </Setter>
-                                
+
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5"/>
@@ -58,8 +57,15 @@
             </Setter>
         </Style>
 
+        <Style x:Key="TextBlockScoreTab" TargetType="TextBlock">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
     </Window.Resources>
-    
+
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
@@ -103,21 +109,121 @@
                          />
             </Border>
 
-            <Border x:Name="Overlay"
+
+            <Border x:Name="OverlayPressToStart"
+                 Grid.Row="1"
+                 Background="Transparent"
+                 Width="{Binding Path=ActualWidth, ElementName=GridBorder}"
+                 Height="{Binding Path=ActualHeight, ElementName=GridBorder}"
+                 Margin="{Binding Path=Margin, ElementName=GridBorder}"
+                 RenderOptions.EdgeMode="Aliased"
+                    Visibility="Visible">
+
+                <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock x:Name="PressToStartText" Visibility="Visible"
+                        FontWeight="Bold"
+                        Text="PRESS ANY KEY TO START"
+                        FontSize="26"
+                        TextWrapping="Wrap" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Grid.Row="0"/>  
+                </Grid>
+            </Border>
+
+            <Border x:Name="OverlayScore"
                     Grid.Row="1"
                     Background="{StaticResource OverlayColor}"
                     Width="{Binding Path=ActualWidth, ElementName=GridBorder}"
                     Height="{Binding Path=ActualHeight, ElementName=GridBorder}"
                     Margin="{Binding Path=Margin, ElementName=GridBorder}"
                     RenderOptions.EdgeMode="Aliased">
-                <TextBlock x:Name="OverlayText" 
-                           Text="PRESS ANY KEY TO START"
-                           FontSize="26"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap"/>
-            </Border>
 
+                <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- row 0 -->
+                    <Grid Grid.Row="0" VerticalAlignment="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" >
+                            <TextBlock Text="SCORE: " 
+                                   FontSize="26" 
+                                   />
+
+                            <TextBlock x:Name="ScoreValue"
+                                    Text="00"
+                                    FontSize="26" 
+                                    />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- row 1 -->
+                    <Grid Grid.Row="1"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        FlowDirection="LeftToRight"
+                        Margin="5">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock 
+                            x:Name="NicknameTextBlock"
+                        Text="NICKNAME: "
+                        FontSize="18"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"
+                        />
+
+                        <TextBox x:Name="NicknameTextBox"
+                        HorizontalAlignment="Left"   
+                        Margin="5,0,0,0"
+                        Width="100"
+                        Grid.Column="1"
+                        />
+                    </Grid>
+
+                    <!-- row 2 -->
+                    <Grid Grid.Row="2" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Margin="0"
+                            Grid.Column="1">
+                            <StackPanel.Resources>
+                                <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock" BasedOn="{StaticResource TextBlockScoreTab}"/>
+                            </StackPanel.Resources>
+
+                            <!-- TODO: utworzyć proper tabelę -->
+                            <TextBlock>"Data1"</TextBlock>
+                            <TextBlock>"Data2"</TextBlock>
+                            <TextBlock>"Data3"</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
 
         </Grid>
     </Viewbox>
