@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +28,11 @@ namespace Snake
     /// </summary>
     public partial class MainWindow : Window
     {
+        public const string FilenameLeaderboard = "Leaderboard";
+
+        public readonly Settings settings;
+        public Leaderboard Leaderboard { get;}
+
         private readonly Dictionary<GridValue, ImageSource> gridValToImage = new()
         {
             { GridValue.Empty, Images.Empty },
@@ -35,9 +43,7 @@ namespace Snake
         private Image[,] gridImages;
         private GameState gameState;
         private SettingsWindow settingsWindow;
-        public readonly Settings settings;
         private bool gameRunning = false;
-
         private readonly Dictionary<Direction, int> dirToRotation = new()
         {
             { Direction.Up, 0 },
@@ -50,8 +56,25 @@ namespace Snake
         {
             settings = new Settings();
             InitializeComponent();
+            Leaderboard = new Leaderboard(FilenameLeaderboard)
+            {
+                PlayersScores =
+                {
+                    new PlayerScore("player1",1100),
+                    new PlayerScore("player2",800),
+                    new PlayerScore("player3",690),
+                    new PlayerScore("player4",200),
+                    new PlayerScore("player5",1)
+                }
+            };
+            DataContext = this;
             CreateNewGame();
         }
+        ~MainWindow()
+        {
+            Leaderboard.SaveToFile();
+        }
+
         private void CreateNewGame()
         {
             GameGrid.Children.Clear();
@@ -239,12 +262,19 @@ namespace Snake
         {
             await DrawDeadSnake();
             await Task.Delay(1000);
-            OverlayScore.Visibility = Visibility.Visible;
-            ScoreValue.Text = gameState.Score.ToString();
-
-            PressToStartText.Text = "PRESS ANY KEY TO START";
-            OverlayPressToStart.Visibility = Visibility.Visible;
             
+            ScoreValue.Text = gameState.Score.ToString();
+            PressToStartText.Text = "PRESS ANY KEY TO START";
+
+            showLeaderboard();
+
+            OverlayScore.Visibility = Visibility.Visible;
+            OverlayPressToStart.Visibility = Visibility.Visible;
+        }
+
+        private void showLeaderboard()
+        {
+
         }
 
         public bool UpdateSettings(Settings newSettings)

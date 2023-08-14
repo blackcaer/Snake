@@ -16,6 +16,7 @@
         KeyDown="Window_KeyDown"
         >
     <Window.Resources>
+        <!--<local:Leaderboard x:Key="leaderboard"/>-->
         <local:ValToLRMarginConverter x:Key="marginConverter"></local:ValToLRMarginConverter>
 
         <Style x:Key="CustomButtonStyle" TargetType="Button">
@@ -55,13 +56,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-
-        <Style x:Key="TextBlockScoreTab" TargetType="TextBlock">
-            <Setter Property="Background" Value="Red"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
         </Style>
 
     </Window.Resources>
@@ -208,20 +202,59 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel VerticalAlignment="Stretch"
+                        <!--<StackPanel VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
                             Margin="0"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            
+                            >
                             <StackPanel.Resources>
                                 <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock" BasedOn="{StaticResource TextBlockScoreTab}"/>
                             </StackPanel.Resources>
 
-                            <!-- TODO: utworzyć proper tabelę -->
-                            <TextBlock>"Data1"</TextBlock>
-                            <TextBlock>"Data2"</TextBlock>
-                            <TextBlock>"Data3"</TextBlock>
-                        </StackPanel>
+                            --><!-- TODO: utworzyć proper tabelę --><!--
+                            <ListView
+                                ItemsSource="{Binding leaderboard.PlayersScores}">
+                                
+                            </ListView>
+                            
+                        </StackPanel>-->
+                        
+                        <!--<ListView ItemsSource="{Binding Leaderboard}" Grid.Column="1">
+                            <ListView.Resources>
+                                <Style x:Key="{x:Type ListItem}" TargetType="ListItem" BasedOn="{StaticResource TextBlockScoreTab}"/>
+                            </ListView.Resources>
+                            --><!-- Your ListView columns and templates go here --><!--
+                        </ListView>-->
+
+                        <ListView ItemsSource="{Binding Leaderboard.PlayersScores}" Grid.Column="1" Background="#888888" >
+                            <ListView.Resources>
+                                <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Red"/>
+                                    <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
+                                    <Setter Property="FontSize" Value="14"/>
+                                </Style>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Background" Value="#777777"/>
+                                    <Setter Property="Background" Value="#777777"/>
+                                    
+                                    <!--<Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0"/>-->
+                                </Style>
+
+                            </ListView.Resources>
+                            
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Player Name" DisplayMemberBinding="{Binding Name}" />
+                                    <GridViewColumn Header="Score" DisplayMemberBinding="{Binding BestScore}" />
+                                </GridView>
+                            </ListView.View>
+
+                        </ListView>
                     </Grid>
+                    
                 </Grid>
             </Border>
 

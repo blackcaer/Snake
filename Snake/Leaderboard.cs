@@ -5,30 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Snake
 {
-    class Leaderboard
+    public class Leaderboard
     {
         public List<PlayerScore> PlayersScores { get; private set; } = new();
         public string FileName { get; private set; }
         public int MaxPlayerCount { get; private set; }
 
-
         public Leaderboard(string fileName = "", int maxPlayerCount = 10)
         {
+
             SetFileName(fileName);
             LoadFromFile();
             SetMaxPlayerCount(maxPlayerCount);
         }
         public void AddPlayerScore(PlayerScore playerScore)
         {
-            int index = PlayersScores.BinarySearch(
+            int index = (PlayersScores).BinarySearch(
                 playerScore, PlayerScore.BestScoreComparer);
 
             if (index < 0)
                 index = ~index;
-
+            //int index = 0; //TODO repair
             PlayersScores.Insert(index, playerScore);
             TrimExcessScores();
         }
@@ -54,20 +55,23 @@ namespace Snake
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while saving leaderboard: {ex.Message}");
+                Console.WriteLine($"Error while saving Leaderboard: {ex.Message}");
             }
 
         }
         public void LoadFromFile()
         {
+            if (!File.Exists(FileName))
+                return;
             try
             {
                 string fileContent = File.ReadAllText(FileName);
                 PlayersScores = JsonConvert.DeserializeObject<List<PlayerScore>>(fileContent);
+                //PlayersScores = JsonConvert.DeserializeObject<ObservableCollection<PlayerScore>>(fileContent);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while loading leaderboard: {ex.Message}");
+                Console.WriteLine($"Error while loading Leaderboard: {ex.Message}");
             }
 
         }
