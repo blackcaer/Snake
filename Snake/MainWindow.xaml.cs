@@ -87,7 +87,8 @@ namespace Snake
             Draw();
             await ShowCountDown();
             OverlayScore.Visibility = Visibility.Hidden;
-            OverlayPressToStart.Visibility = Visibility.Hidden;
+            await ShowCountDown();
+            OverlayPressToStart.Visibility = Visibility.Hidden; // It also covers countdown
 
             await GameLoop(tickTime);
             await ShowGameOver();
