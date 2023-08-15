@@ -9,8 +9,9 @@ namespace Snake
     public class PlayerScore
     {
         public static readonly PlayerScoreComparer BestScoreComparer = new();
-        public int BestScore { get; private set; } = 0;
         public string Name { get; private set; }
+        public int BestScore { get; private set; } = 0;
+        
 
         public PlayerScore(string name,int bestScore=0)
         {
