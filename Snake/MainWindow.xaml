@@ -16,9 +16,90 @@
         KeyDown="Window_KeyDown"
         >
     <Window.Resources>
-        <!--<local:Leaderboard x:Key="leaderboard"/>-->
+    
+        <!-- Converters -->
         <local:ValToLRMarginConverter x:Key="marginConverter"></local:ValToLRMarginConverter>
+        
+        <!-- Colors and brushes -->
+        <Color x:Key="ColorGreyStd6">#666666</Color>
+        <SolidColorBrush x:Key="BrushGreyStd6" Color="{StaticResource ColorGreyStd6}"/>
+        
+        <Color x:Key="ColorGreyStd7">#777777</Color>
+        <SolidColorBrush x:Key="BrushGreyStd7" Color="{StaticResource ColorGreyStd7}"/>
 
+        <Color x:Key="ColorGreyStd8">#888888</Color>
+        <SolidColorBrush x:Key="BrushGreyStd8" Color="{StaticResource ColorGreyStd8}"/>
+
+        <Color x:Key="ColorGreyStd9">#999999</Color>
+        <SolidColorBrush x:Key="BrushGreyStd9" Color="{StaticResource ColorGreyStd9}"/>
+
+        <Color x:Key="ColorGreyStdA">#AAAAAA</Color>
+        <SolidColorBrush x:Key="BrushGreyStdA" Color="{StaticResource ColorGreyStdA}"/>
+
+        <Color x:Key="ColorGreyStdB">#BBBBBB</Color>
+        <SolidColorBrush x:Key="BrushGreyStdB" Color="{StaticResource ColorGreyStdB}"/>
+
+        <Color x:Key="ColorGreyStdC">#CCCCCC</Color>
+        <SolidColorBrush x:Key="BrushGreyStdC" Color="{StaticResource ColorGreyStdC}"/>
+
+        <!-- DataGridColumnHeader -->
+        <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="white"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="#666666"/>
+            
+            <Setter Property="Margin" Value="0,0,0,3"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            
+
+            <!--<Setter Property="BorderThickness" Value="5"/>-->
+        </Style>
+
+        <!-- DataGrid -->
+        <Style x:Key="DataGridStyle" TargetType="DataGrid">
+            <Setter Property="Margin" Value="0" />
+            
+        </Style>
+
+        <!-- DataGridRow -->
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Black" />
+        </Style>
+        
+        <!-- DataGridCell -->
+        <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="Black" BorderThickness="0">
+                            <Border x:Name="border"
+                              BorderBrush="White"
+                              BorderThickness="1"
+                              Background="Green"
+                              CornerRadius="4">
+                                <ContentPresenter />
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="Orange"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Settings button -->
         <Style x:Key="CustomButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
@@ -140,6 +221,32 @@
                     RenderOptions.EdgeMode="Aliased">
 
                 <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
+                    <Grid.Resources>
+                        <AlternationConverter x:Key="BackgroundConverter">
+                            <SolidColorBrush>CornflowerBlue</SolidColorBrush>
+                            <SolidColorBrush>LightBlue</SolidColorBrush>
+                        </AlternationConverter>
+
+                        <AlternationConverter x:Key="AlternateForegroundConverter">
+                            <SolidColorBrush>Black</SolidColorBrush>
+                            <SolidColorBrush>Navy</SolidColorBrush>
+                        </AlternationConverter>
+
+                        <Style x:Key="alternatingWithBinding" TargetType="{x:Type DataGridRow}">
+
+                            <Setter Property="Background" 
+                             Value="{Binding RelativeSource={RelativeSource Self},
+                             Path=(ItemsControl.AlternationIndex),
+                             Converter={StaticResource BackgroundConverter}}"/>
+
+                            <Setter Property="Foreground" 
+                             Value="{Binding RelativeSource={RelativeSource Self},
+                             Path=(ItemsControl.AlternationIndex),
+                             Converter={StaticResource AlternateForegroundConverter}}"/>
+                        </Style>
+
+                    </Grid.Resources>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
@@ -202,57 +309,44 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--<StackPanel VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch"
-                            Margin="0"
-                            Grid.Column="1"
+                        <!--AlternationCount="2" ItemContainerStyle="{StaticResource alternatingWithBinding}"-->
+                        <DataGrid 
+                            AutoGenerateColumns="False" 
+                            RowHeaderWidth="0" 
+                            ItemsSource="{Binding Leaderboard.PlayersScores}" 
+                            Grid.Column="1" 
+                            Background="Black"
+                            CanUserReorderColumns="False"
+                            CanUserResizeColumns="False"
+                            CanUserResizeRows="False"
+                            CanUserSortColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            IsReadOnly="True"
+                            SelectionMode="Single"
+                            IsHitTestVisible="True"
+                            Foreground="White"
                             
+                            BorderThickness="0"
+                            RowStyle="{StaticResource DataGridRowStyle}"
+                            CellStyle="{StaticResource DataGridCellStyle}"
+                            ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"   
+                            Padding="1"
+                            
+                            Style="{StaticResource DataGridStyle}"
                             >
-                            <StackPanel.Resources>
-                                <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock" BasedOn="{StaticResource TextBlockScoreTab}"/>
-                            </StackPanel.Resources>
-
-                            --><!-- TODO: utworzyć proper tabelę --><!--
-                            <ListView
-                                ItemsSource="{Binding leaderboard.PlayersScores}">
-                                
-                            </ListView>
                             
-                        </StackPanel>-->
-                        
-                        <!--<ListView ItemsSource="{Binding Leaderboard}" Grid.Column="1">
-                            <ListView.Resources>
-                                <Style x:Key="{x:Type ListItem}" TargetType="ListItem" BasedOn="{StaticResource TextBlockScoreTab}"/>
-                            </ListView.Resources>
-                            --><!-- Your ListView columns and templates go here --><!--
-                        </ListView>-->
+                            <DataGrid.Resources>
 
-                        <ListView ItemsSource="{Binding Leaderboard.PlayersScores}" Grid.Column="1" Background="#888888" >
-                            <ListView.Resources>
-                                <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
-                                    <Setter Property="Background" Value="Red"/>
-                                    <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
-                                    <Setter Property="FontSize" Value="14"/>
-                                </Style>
-                                <Style TargetType="{x:Type GridViewColumnHeader}">
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="Background" Value="#777777"/>
-                                    <Setter Property="Background" Value="#777777"/>
-                                    
-                                    <!--<Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="0"/>-->
-                                </Style>
+                            </DataGrid.Resources>
 
-                            </ListView.Resources>
+                            <DataGrid.Columns >
+                                <DataGridTextColumn Width="*" Header="Nickname" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Width="*" Header="BestScore" Binding="{Binding BestScore}"/>
+                            </DataGrid.Columns>
                             
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Player Name" DisplayMemberBinding="{Binding Name}" />
-                                    <GridViewColumn Header="Score" DisplayMemberBinding="{Binding BestScore}" />
-                                </GridView>
-                            </ListView.View>
 
-                        </ListView>
+                        </DataGrid>
                     </Grid>
                     
                 </Grid>

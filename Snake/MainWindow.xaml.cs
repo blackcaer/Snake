@@ -85,7 +85,6 @@ namespace Snake
         {
             int tickTime = GetTickTime();
             Draw();
-            await ShowCountDown();
             OverlayScore.Visibility = Visibility.Hidden;
             await ShowCountDown();
             OverlayPressToStart.Visibility = Visibility.Hidden; // It also covers countdown
@@ -216,7 +215,7 @@ namespace Snake
 
         private async void Window_KeyDown(object sender, KeyEventArgs e)
         {
-
+            return; // TODO delete this line 
             if (!gameRunning)
             {
                 settings.FreezeSettings();
