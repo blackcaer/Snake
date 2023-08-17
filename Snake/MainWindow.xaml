@@ -16,32 +16,12 @@
         KeyDown="Window_KeyDown"
         >
     <Window.Resources>
-    
+
+        <SolidColorBrush x:Key="b" Color="Blue"/>
+
         <!-- Converters -->
         <local:ValToLRMarginConverter x:Key="marginConverter"></local:ValToLRMarginConverter>
         
-        <!-- Colors and brushes -->
-        <Color x:Key="ColorGreyStd6">#666666</Color>
-        <SolidColorBrush x:Key="BrushGreyStd6" Color="{StaticResource ColorGreyStd6}"/>
-        
-        <Color x:Key="ColorGreyStd7">#777777</Color>
-        <SolidColorBrush x:Key="BrushGreyStd7" Color="{StaticResource ColorGreyStd7}"/>
-
-        <Color x:Key="ColorGreyStd8">#888888</Color>
-        <SolidColorBrush x:Key="BrushGreyStd8" Color="{StaticResource ColorGreyStd8}"/>
-
-        <Color x:Key="ColorGreyStd9">#999999</Color>
-        <SolidColorBrush x:Key="BrushGreyStd9" Color="{StaticResource ColorGreyStd9}"/>
-
-        <Color x:Key="ColorGreyStdA">#AAAAAA</Color>
-        <SolidColorBrush x:Key="BrushGreyStdA" Color="{StaticResource ColorGreyStdA}"/>
-
-        <Color x:Key="ColorGreyStdB">#BBBBBB</Color>
-        <SolidColorBrush x:Key="BrushGreyStdB" Color="{StaticResource ColorGreyStdB}"/>
-
-        <Color x:Key="ColorGreyStdC">#CCCCCC</Color>
-        <SolidColorBrush x:Key="BrushGreyStdC" Color="{StaticResource ColorGreyStdC}"/>
-
         <!-- DataGridColumnHeader -->
         <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="Foreground" Value="white"/>
@@ -52,8 +32,6 @@
             
             <Setter Property="Margin" Value="0,0,0,3"/>
             <Setter Property="BorderThickness" Value="0"/>
-
-            
 
             <!--<Setter Property="BorderThickness" Value="5"/>-->
         </Style>
@@ -66,6 +44,7 @@
 
         <!-- DataGridRow -->
         <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+            
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="BorderThickness" Value="0"/>
@@ -74,6 +53,7 @@
         
         <!-- DataGridCell -->
         <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+            
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="2" />
             <Setter Property="Background" Value="Black" />
@@ -138,6 +118,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
 
     </Window.Resources>
 
@@ -222,7 +203,7 @@
 
                 <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
                     <Grid.Resources>
-                        <AlternationConverter x:Key="BackgroundConverter">
+                        <!--<AlternationConverter x:Key="BackgroundConverter">
                             <SolidColorBrush>CornflowerBlue</SolidColorBrush>
                             <SolidColorBrush>LightBlue</SolidColorBrush>
                         </AlternationConverter>
@@ -243,7 +224,7 @@
                              Value="{Binding RelativeSource={RelativeSource Self},
                              Path=(ItemsControl.AlternationIndex),
                              Converter={StaticResource AlternateForegroundConverter}}"/>
-                        </Style>
+                        </Style>-->
 
                     </Grid.Resources>
                     
@@ -310,23 +291,25 @@
                         </Grid.ColumnDefinitions>
 
                         <!--AlternationCount="2" ItemContainerStyle="{StaticResource alternatingWithBinding}"-->
-                        <DataGrid 
+                        <DataGrid
+                            ItemsSource="{Binding Leaderboard.PlayersScores}" 
                             AutoGenerateColumns="False" 
                             RowHeaderWidth="0" 
-                            ItemsSource="{Binding Leaderboard.PlayersScores}" 
                             Grid.Column="1" 
+                            Grid.ColumnSpan="1"
                             Background="Black"
+                            Foreground="Black"
+                            IsReadOnly="True"
+                            SelectionMode="Single"
+         
                             CanUserReorderColumns="False"
                             CanUserResizeColumns="False"
                             CanUserResizeRows="False"
                             CanUserSortColumns="False"
                             CanUserAddRows="False"
                             CanUserDeleteRows="False"
-                            IsReadOnly="True"
-                            SelectionMode="Single"
                             IsHitTestVisible="True"
-                            Foreground="White"
-                            
+                                  
                             BorderThickness="0"
                             RowStyle="{StaticResource DataGridRowStyle}"
                             CellStyle="{StaticResource DataGridCellStyle}"
@@ -335,9 +318,11 @@
                             
                             Style="{StaticResource DataGridStyle}"
                             >
-                            
-                            <DataGrid.Resources>
+                            <!--
 
+                            -->
+                            <DataGrid.Resources>
+     
                             </DataGrid.Resources>
 
                             <DataGrid.Columns >
