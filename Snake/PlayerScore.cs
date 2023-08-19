@@ -11,12 +11,14 @@ namespace Snake
         public static readonly PlayerScoreComparer BestScoreComparer = new();
         public string Name { get; private set; }
         public int BestScore { get; private set; } = 0;
+        public DateTime Date { get; private set; }
         
 
         public PlayerScore(string name,int bestScore=0)
         {
             SetName(name);
             SetBestScore(bestScore);
+            Date = DateTime.Now;
         }
 
         public void SetBestScore(int bestScore)
