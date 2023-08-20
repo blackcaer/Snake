@@ -31,5 +31,10 @@ namespace Snake
             Name = name;
         }
 
+        public override string ToString()
+        {
+            return (Name+" "+BestScore.ToString());
+        }
+
     }
 }
