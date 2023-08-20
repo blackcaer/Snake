@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -31,7 +32,7 @@ namespace Snake
         public const string FilenameLeaderboard = "Leaderboard";
 
         public readonly Settings settings;
-        public Leaderboard Leaderboard { get;}
+        public Leaderboard Leaderboard { get; }
 
         private readonly Dictionary<GridValue, ImageSource> gridValToImage = new()
         {
@@ -56,23 +57,11 @@ namespace Snake
         {
             settings = new Settings();
             InitializeComponent();
-            Leaderboard = new Leaderboard(FilenameLeaderboard)
-            {
-                PlayersScores =
-                {
-                    new PlayerScore("player1",1100),
-                    new PlayerScore("player2",800),
-                    new PlayerScore("player3",690),
-                    new PlayerScore("player4",200),
-                    new PlayerScore("player5",1)
-                }
-            };
+            Leaderboard = new Leaderboard(FilenameLeaderboard, 100);
+            Leaderboard.LoadFromFile();
+            Leaderboard.SortLeaderboard();
             DataContext = this;
             CreateNewGame();
-        }
-        ~MainWindow()
-        {
-            Leaderboard.SaveToFile();
         }
 
         private void CreateNewGame()
@@ -85,10 +74,10 @@ namespace Snake
         {
             int tickTime = GetTickTime();
             Draw();
-            OverlayScore.Visibility = Visibility.Hidden;
-            await ShowCountDown();
-            OverlayPressToStart.Visibility = Visibility.Hidden; // It also covers countdown
+            OverlayEndGame.Visibility = Visibility.Hidden;
+            OverlayDark.Visibility = Visibility.Hidden;
 
+            await ShowCountDown();
             await GameLoop(tickTime);
             await ShowGameOver();
             CreateNewGame();
@@ -97,12 +86,11 @@ namespace Snake
         {
             return settings.TickTime;
         }
-        /*private void setSideCells(int rows, int cols)
-        {
-            this.cols = (cols >= minSideCells && cols <= maxSideCells) ? cols : defaulSideCells;
-            this.rows = (rows >= minSideCells && rows <= maxSideCells) ? rows : defaulSideCells;
-        }*/
 
+        private void SaveToLeaderboard(PlayerScore ps)
+        {
+            Leaderboard.AddPlayerScore(ps);
+        }
         private void CreateSettingsWindow()
         {
             settingsWindow = new SettingsWindow(settings);
@@ -206,16 +194,21 @@ namespace Snake
 
         private async Task ShowCountDown()
         {
+            TextBlockCountdown.Visibility = Visibility.Visible;
             for (int i = 3; i >= 1; i--)
             {
-                PressToStartText.Text = i.ToString();
+                TextBlockCountdown.Text = i.ToString();
                 await Task.Delay(500);
             }
+            TextBlockCountdown.Visibility = Visibility.Collapsed;
         }
 
         private async void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            return; // TODO delete this line 
+           
+            if (NicknameTextBox.IsFocused) // If user is typing his nickname
+                return;
+
             if (!gameRunning)
             {
                 settings.FreezeSettings();
@@ -262,14 +255,13 @@ namespace Snake
         {
             await DrawDeadSnake();
             await Task.Delay(1000);
-            
+
             ScoreValue.Text = gameState.Score.ToString();
-            PressToStartText.Text = "PRESS ANY KEY TO START";
 
             showLeaderboard();
 
-            OverlayScore.Visibility = Visibility.Visible;
-            OverlayPressToStart.Visibility = Visibility.Visible;
+            OverlayEndGame.Visibility = Visibility.Visible;
+            OverlayDark.Visibility = Visibility.Visible;
         }
 
         private void showLeaderboard()
@@ -296,6 +288,14 @@ namespace Snake
             }
 
         }
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Leaderboard.SaveToFile();
+        }
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainGrid.Focus();
+        }
     }
 }
