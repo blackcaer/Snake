@@ -242,6 +242,7 @@
                 <!--    Width="{Binding Path=ActualWidth, ElementName=GridBorder}"
 Height="{Binding Path=ActualHeight, ElementName=GridBorder}"-->
                 <!--Grid for overlay (leaderboard,score)-->
+                
                 <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
 
                     <Grid.RowDefinitions>
@@ -280,32 +281,44 @@ Height="{Binding Path=ActualHeight, ElementName=GridBorder}"-->
 
                     <!-- row 1 -->
                     <Grid Grid.Row="1"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
+                        
                         FlowDirection="LeftToRight"
                         Margin="5">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
 
-                        <TextBlock 
-                            x:Name="NicknameTextBlock"
-                        Text="NICKNAME: "
-                        FontSize="18"
-                        HorizontalAlignment="Right"
-                        Grid.Column="0"
-                        />
+                        
 
-                        <!-- TextBox for nickname -->
-                        <TextBox x:Name="NicknameTextBox"
-                        HorizontalAlignment="Left"   
-                        Margin="5,0,0,0"
-                        Width="100"
-                        Grid.Column="1"
-                        />
+                        <DockPanel x:Name="SaveScorePanel" Grid.Column="1" IsEnabled="False">
+                            <TextBlock 
+                                x:Name="NicknameTextBlock"
+                                Text="NICKNAME: "
+                                FontSize="18"
+                                HorizontalAlignment="Right"
+                                DockPanel.Dock="Left"
+                                
+                            />
+                            
+                            <!-- TextBox for nickname -->
+                            <TextBox x:Name="NicknameTextBox"
+                                DockPanel.Dock="Left"
+                                Margin="5,0,5,0"
+                                Width="100"
+                            />
+                            
+                            <Button 
+                                x:Name="SaveScoreButton"
+                                DockPanel.Dock="Left"
+                                Content="Save" Click="SaveScoreButton_Click"
+                            />
+                            
+                        </DockPanel>
+                        
                     </Grid>
 
                     <!-- row 2 -->
