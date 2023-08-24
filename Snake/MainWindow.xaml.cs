@@ -30,6 +30,7 @@ namespace Snake
     public partial class MainWindow : Window
     {
         public const string FilenameLeaderboard = "Leaderboard";
+        public const short MaxLeaderboardScores = 10;
 
         public readonly Settings settings;
         public Leaderboard Leaderboard { get; }
@@ -58,7 +59,7 @@ namespace Snake
             //previousScore = new PlayerScore();
             settings = new Settings();
             InitializeComponent();
-            Leaderboard = new Leaderboard(FilenameLeaderboard, 100);
+            Leaderboard = new Leaderboard(FilenameLeaderboard, MaxLeaderboardScores);
             Leaderboard.LoadFromFile();
             Leaderboard.SortLeaderboard();
             DataContext = this;
@@ -92,12 +93,12 @@ namespace Snake
         {
             if (previousScore != null)
             {
-                if (previousScore.Name != NicknameTextBox.Text && NicknameTextBox.Text != "")
+                if (previousScore.Name != NicknameTextBox.Text)
                     previousScore.SetName(NicknameTextBox.Text);
                 Leaderboard.AddPlayerScore(previousScore);
                 Leaderboard.SaveToFile();
                 previousScore = null;
-            }   
+            }
         }
         private void CreateSettingsWindow()
         {
@@ -215,7 +216,7 @@ namespace Snake
 
         private async void Window_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
             if (NicknameTextBox.IsFocused) // If user is typing his nickname, don't start the game
                 return;
 
@@ -269,7 +270,7 @@ namespace Snake
             await DrawDeadSnake();
             await Task.Delay(1000);
 
-            previousScore = new PlayerScore(bestScore:previousScoreValue);
+            previousScore = new PlayerScore(bestScore: previousScoreValue);
             ScoreValue.Text = previousScoreValue.ToString();
 
             OverlayEndGame.Visibility = Visibility.Visible;
