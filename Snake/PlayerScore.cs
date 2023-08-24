@@ -14,7 +14,7 @@ namespace Snake
         public DateTime Date { get; private set; }
         
 
-        public PlayerScore(string name,int bestScore=0)
+        public PlayerScore(string name="unknown",int bestScore=0)
         {
             SetName(name);
             SetBestScore(bestScore);
