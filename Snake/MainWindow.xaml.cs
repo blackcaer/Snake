@@ -52,9 +52,10 @@ namespace Snake
             { Direction.Left, 270 },
             { Direction.Right, 90 }
         };
-
+        private PlayerScore previousScore = null;
         public MainWindow()
         {
+            //previousScore = new PlayerScore();
             settings = new Settings();
             InitializeComponent();
             Leaderboard = new Leaderboard(FilenameLeaderboard, 100);
@@ -79,7 +80,7 @@ namespace Snake
 
             await ShowCountDown();
             await GameLoop(tickTime);
-            await ShowGameOver();
+            await GameOver();
             CreateNewGame();
         }
         private int GetTickTime()
@@ -87,14 +88,23 @@ namespace Snake
             return settings.TickTime;
         }
 
-        private void SaveToLeaderboard(PlayerScore ps)
+        private void SavePreviousScoreToLeaderboard()
         {
-            Leaderboard.AddPlayerScore(ps);
+            if (previousScore != null)
+            {
+                if (previousScore.Name != NicknameTextBox.Text && NicknameTextBox.Text != "")
+                    previousScore.SetName(NicknameTextBox.Text);
+                Leaderboard.AddPlayerScore(previousScore);
+                Leaderboard.SaveToFile();
+                previousScore = null;
+            }   
         }
         private void CreateSettingsWindow()
         {
-            settingsWindow = new SettingsWindow(settings);
-            settingsWindow.Owner = this;
+            settingsWindow = new SettingsWindow(settings)
+            {
+                Owner = this
+            };
             settingsWindow.UpdateGameSettingsEvent += new SettingsWindow.UpdateGameSettingsEventHandler(UpdateSettingsHandler);
         }
 
@@ -129,7 +139,7 @@ namespace Snake
             {
                 for (int c = 0; c < cols; c++)
                 {
-                    Image image = new Image
+                    Image image = new()
                     {
                         Source = Images.Empty,
                         RenderTransformOrigin = new Point(0.5, 0.5)
@@ -174,7 +184,7 @@ namespace Snake
 
         private async Task DrawDeadSnake()
         {
-            List<Position> positions = new List<Position>(gameState.SnakePositions());
+            var positions = new List<Position>(gameState.SnakePositions());
             for (int i = 0; i < positions.Count; i++)
             {
                 Position pos = positions[i];
@@ -206,11 +216,13 @@ namespace Snake
         private async void Window_KeyDown(object sender, KeyEventArgs e)
         {
            
-            if (NicknameTextBox.IsFocused) // If user is typing his nickname
+            if (NicknameTextBox.IsFocused) // If user is typing his nickname, don't start the game
                 return;
 
             if (!gameRunning)
             {
+                SaveScorePanel.IsEnabled = false;
+                SavePreviousScoreToLeaderboard();
                 settings.FreezeSettings();
                 ButtonSettings.IsEnabled = false;
                 gameRunning = true;
@@ -220,7 +232,7 @@ namespace Snake
                 gameRunning = false;
                 settings.UnfreezeSettings();
                 ButtonSettings.IsEnabled = true;
-
+                SaveScorePanel.IsEnabled = true;
                 return;
             }
 
@@ -251,22 +263,17 @@ namespace Snake
             ShowSettings();
         }
 
-        private async Task ShowGameOver()
+        private async Task GameOver()
         {
+            int previousScoreValue = gameState.Score;
             await DrawDeadSnake();
             await Task.Delay(1000);
 
-            ScoreValue.Text = gameState.Score.ToString();
-
-            showLeaderboard();
+            previousScore = new PlayerScore(bestScore:previousScoreValue);
+            ScoreValue.Text = previousScoreValue.ToString();
 
             OverlayEndGame.Visibility = Visibility.Visible;
             OverlayDark.Visibility = Visibility.Visible;
-        }
-
-        private void showLeaderboard()
-        {
-
         }
 
         public bool UpdateSettings(Settings newSettings)
@@ -296,6 +303,14 @@ namespace Snake
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MainGrid.Focus();
+        }
+
+        private void SaveScoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveScorePanel.IsEnabled = false;
+            previousScore?.SetName(NicknameTextBox.Text);
+            SavePreviousScoreToLeaderboard();
+            e.Handled = true;
         }
     }
 }
