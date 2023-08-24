@@ -29,7 +29,7 @@ namespace Snake
         private void TrimExcessScores()
         {
             while (PlayersScores.Count > MaxPlayerCount)
-                PlayersScores.RemoveAt(0);
+                PlayersScores.RemoveAt(PlayersScores.Count-1);
         }
         public void SetMaxPlayerCount(int maxPlayerCount)
         {
