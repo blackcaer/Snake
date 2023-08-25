@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 namespace Snake
 {
@@ -17,7 +14,7 @@ namespace Snake
 
         public Leaderboard(string fileName = "", int maxPlayerCount = 10)
         {
-            SetFileName(fileName); 
+            SetFileName(fileName);
             SetMaxPlayerCount(maxPlayerCount);
         }
         public void AddPlayerScore(PlayerScore playerScore)
@@ -29,7 +26,7 @@ namespace Snake
         private void TrimExcessScores()
         {
             while (PlayersScores.Count > MaxPlayerCount)
-                PlayersScores.RemoveAt(PlayersScores.Count-1);
+                PlayersScores.RemoveAt(PlayersScores.Count - 1);
         }
         public void SetMaxPlayerCount(int maxPlayerCount)
         {
@@ -70,7 +67,7 @@ namespace Snake
         }
         public void SortLeaderboard()
         {
-            var tmp = new ObservableCollection<PlayerScore>(
+            ObservableCollection<PlayerScore> tmp = new ObservableCollection<PlayerScore>(
             PlayersScores.OrderByDescending(score => score, PlayerScore.BestScoreComparer));
             PlayersScores.Clear();
             foreach (PlayerScore score in tmp) PlayersScores.Add(score);

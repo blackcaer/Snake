@@ -88,7 +88,7 @@ namespace Snake
         {
             if (Settings != OriginalSettings)
             {
-                var x = MessageBox.Show(closingMonit, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                MessageBoxResult x = MessageBox.Show(closingMonit, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
                 if (x == MessageBoxResult.No)
                 {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Snake
 {
@@ -13,9 +9,9 @@ namespace Snake
         public string Name { get; private set; }
         public int BestScore { get; private set; } = 0;
         public DateTime Date { get; private set; }
-        
 
-        public PlayerScore(string name = DefaultName, int bestScore=0)
+
+        public PlayerScore(string name = DefaultName, int bestScore = 0)
         {
             SetName(name);
             SetBestScore(bestScore);
@@ -36,7 +32,7 @@ namespace Snake
 
         public override string ToString()
         {
-            return (Name+" "+BestScore.ToString());
+            return (Name + " " + BestScore.ToString());
         }
 
     }

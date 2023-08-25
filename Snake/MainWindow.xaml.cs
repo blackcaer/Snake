@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -128,8 +125,8 @@ namespace Snake
 
         private Image[,] SetupGrid()
         {
-            var rows = settings.Rows;
-            var cols = settings.Cols;
+            int rows = settings.Rows;
+            int cols = settings.Cols;
 
             Image[,] images = new Image[rows, cols];
             GameGrid.Rows = rows;
@@ -185,7 +182,7 @@ namespace Snake
 
         private async Task DrawDeadSnake()
         {
-            var positions = new List<Position>(gameState.SnakePositions());
+            List<Position> positions = new List<Position>(gameState.SnakePositions());
             for (int i = 0; i < positions.Count; i++)
             {
                 Position pos = positions[i];
