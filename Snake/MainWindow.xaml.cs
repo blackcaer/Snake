@@ -91,7 +91,10 @@ namespace Snake
             if (previousScore != null)
             {
                 if (previousScore.Name != NicknameTextBox.Text)
+                {
                     previousScore.SetName(NicknameTextBox.Text);
+                }
+
                 Leaderboard.AddPlayerScore(previousScore);
                 Leaderboard.SaveToFile();
                 previousScore = null;
@@ -109,7 +112,7 @@ namespace Snake
         private void ShowSettings()
         {
             CreateSettingsWindow();
-            settingsWindow.ShowDialog();
+            _ = settingsWindow.ShowDialog();
             return;
         }
 
@@ -144,7 +147,7 @@ namespace Snake
                     };
 
                     images[r, c] = image;
-                    GameGrid.Children.Add(image);
+                    _ = GameGrid.Children.Add(image);
                 }
             }
 
@@ -182,19 +185,12 @@ namespace Snake
 
         private async Task DrawDeadSnake()
         {
-            List<Position> positions = new List<Position>(gameState.SnakePositions());
+            List<Position> positions = new(gameState.SnakePositions());
             for (int i = 0; i < positions.Count; i++)
             {
                 Position pos = positions[i];
                 Image image = gridImages[pos.Row, pos.Col];
-                if (image.Source == Images.Body)
-                {
-                    image.Source = Images.DeadBody;
-                }
-                else
-                {
-                    image.Source = Images.DeadHead;
-                }
+                image.Source = image.Source == Images.Body ? Images.DeadBody : Images.DeadHead;
 
                 await Task.Delay(50);
             }
@@ -215,7 +211,9 @@ namespace Snake
         {
 
             if (NicknameTextBox.IsFocused) // If user is typing his nickname, don't start the game
+            {
                 return;
+            }
 
             if (!gameRunning)
             {
@@ -281,7 +279,7 @@ namespace Snake
         }
 
         // Updates settings when new settings are confirmed in SettingsWindow
-        void UpdateSettingsHandler(object sender, UpdateGameSettingsEventArgs e)
+        private void UpdateSettingsHandler(object sender, UpdateGameSettingsEventArgs e)
         {
             bool updateStatus = UpdateSettings(e.Settings);
             if (updateStatus)
@@ -290,7 +288,7 @@ namespace Snake
             }
             else
             {
-                MessageBox.Show("Error while trying to apply new settings, continuing ");
+                _ = MessageBox.Show("Error while trying to apply new settings, continuing ");
             }
 
         }
@@ -301,7 +299,7 @@ namespace Snake
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainGrid.Focus();
+            _ = MainGrid.Focus();
         }
 
         private void SaveScoreButton_Click(object sender, RoutedEventArgs e)

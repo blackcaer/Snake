@@ -25,13 +25,10 @@ namespace Snake
         private string RegexAllowed = RegexAllowedNone;
         private Key OtherAcceptedKeys = Key.Return;
         public enum SeparatorType { None, Period, PeriodAndConvertToPeriod };
-        new public string Text
+        public new string Text
         {
-            get { return base.Text; }
-            set
-            {
-                base.Text = HandleTextInput(value);
-            }
+            get => base.Text;
+            set => base.Text = HandleTextInput(value);
         }
 
         public DigitBox()
@@ -73,7 +70,9 @@ namespace Snake
             Key key = e.Key;
 
             if (!CheckThisKeyFuther(key, e))
+            {
                 return;
+            }
 
             if (!IsKeyNumber(key) || e.KeyboardDevice.Modifiers != ModifierKeys.None)
             {
@@ -90,11 +89,14 @@ namespace Snake
                 text = LeaveOnlyFirstPeriod(text);
             }
 
-            if (text == "" || text == ".")
+            if (text is "" or ".")
+            {
                 text = "0";
+            }
+
             return text;
         }
-        private string LeaveOnlyFirstPeriod(string text)
+        private static string LeaveOnlyFirstPeriod(string text)
         {
             return text.Replace(".", "").Insert(text.IndexOf("."), ".");
         }
@@ -121,10 +123,14 @@ namespace Snake
         private bool CheckThisKeyFuther(Key key, KeyEventArgs e)
         {
             if ((OtherAcceptedKeys & key) != key)
+            {
                 return true;    // numbers/letters etc
+            }
 
             if (((Key.OemPeriod | Key.OemComma | Key.Decimal) & key) != key) // if not separator there's no need for futher checking
+            {
                 return false;
+            }
 
             if (NumOfPeriodsInText() != 0) // Period is already in text so mark as handled
             {
@@ -132,11 +138,11 @@ namespace Snake
                 return false;
             }
 
-            if (key == Key.OemComma || key == Key.Decimal)
+            if (key is Key.OemComma or Key.Decimal)
             {
                 // Handle comma event and replace with period:
                 e.Handled = true;
-                TextCompositionManager.StartComposition(
+                _ = TextCompositionManager.StartComposition(
                 new TextComposition(InputManager.Current, this, "."));
                 return false;
             }
@@ -145,9 +151,9 @@ namespace Snake
         }
         private static bool IsKeyNumber(Key key)
         {
-            if (key < Key.D0 || key > Key.D9)
+            if (key is < Key.D0 or > Key.D9)
             {
-                if (key < Key.NumPad0 || key > Key.NumPad9)
+                if (key is < Key.NumPad0 or > Key.NumPad9)
                 {
                     return false;
                 }

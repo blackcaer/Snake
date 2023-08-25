@@ -26,7 +26,9 @@ namespace Snake
         private void TrimExcessScores()
         {
             while (PlayersScores.Count > MaxPlayerCount)
+            {
                 PlayersScores.RemoveAt(PlayersScores.Count - 1);
+            }
         }
         public void SetMaxPlayerCount(int maxPlayerCount)
         {
@@ -52,7 +54,10 @@ namespace Snake
         public void LoadFromFile()
         {
             if (!File.Exists(FileName))
+            {
                 return;
+            }
+
             try
             {
                 string fileContent = File.ReadAllText(FileName);
@@ -67,10 +72,13 @@ namespace Snake
         }
         public void SortLeaderboard()
         {
-            ObservableCollection<PlayerScore> tmp = new ObservableCollection<PlayerScore>(
+            ObservableCollection<PlayerScore> tmp = new(
             PlayersScores.OrderByDescending(score => score, PlayerScore.BestScoreComparer));
             PlayersScores.Clear();
-            foreach (PlayerScore score in tmp) PlayersScores.Add(score);
+            foreach (PlayerScore score in tmp)
+            {
+                PlayersScores.Add(score);
+            }
         }
     }
 }

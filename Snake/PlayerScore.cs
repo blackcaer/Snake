@@ -26,13 +26,16 @@ namespace Snake
         public void SetName(string name)
         {
             if (name == "")
+            {
                 name = DefaultName;
+            }
+
             Name = name;
         }
 
         public override string ToString()
         {
-            return (Name + " " + BestScore.ToString());
+            return Name + " " + BestScore.ToString();
         }
 
     }

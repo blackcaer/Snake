@@ -6,10 +6,10 @@ namespace Snake
 {
     public class Direction
     {
-        public readonly static Direction Left = new Direction(0, -1);
-        public readonly static Direction Right = new Direction(0, 1);
-        public readonly static Direction Up = new Direction(-1, 0);
-        public readonly static Direction Down = new Direction(1, 0);
+        public static readonly Direction Left = new(0, -1);
+        public static readonly Direction Right = new(0, 1);
+        public static readonly Direction Up = new(-1, 0);
+        public static readonly Direction Down = new(1, 0);
         public int RowOffset { get; }
         public int ColumnOffset { get; }
 

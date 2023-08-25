@@ -19,13 +19,7 @@
         // Properties which can be changed while SettingsFreezed is false:
         public double TickTimeMultiplier { get; private set; } = 1.0;
         public double Speed;
-        public int TickTime
-        {
-            get
-            {
-                return (int)(tickTimeStart / (Speed / 100));
-            }
-        }
+        public int TickTime => (int)(tickTimeStart / (Speed / 100));
         public int Rows { get; private set; }
         public int Cols { get; private set; }
 
@@ -39,7 +33,7 @@
         public Settings(Settings settings)
         {
             Speed = defSpeed;
-            ApplySettings(settings);
+            _ = ApplySettings(settings);
         }
 
         public void FreezeSettings()
@@ -61,7 +55,9 @@
         public bool ApplySettings(Settings settingsToBeApplied)
         {
             if (SettingsFreezed)
+            {
                 return false;
+            }
 
             Speed = settingsToBeApplied.Speed;
             Rows = settingsToBeApplied.Rows;
@@ -73,29 +69,22 @@
         public void SetSpeed(double speed)
         {
             if (SettingsFreezed)
+            {
                 return;
+            }
 
-            if (speed > maxSpeed)
-            {
-                Speed = maxSpeed;
-            }
-            else if (speed < minSpeed)
-            {
-                Speed = minSpeed;
-            }
-            else
-            {
-                Speed = speed;
-            }
+            Speed = speed > maxSpeed ? maxSpeed : speed < minSpeed ? minSpeed : speed;
         }
 
         public void SetRowsCols(int NewRows, int NewCols)
         {
             if (SettingsFreezed)
+            {
                 return;
+            }
 
-            Rows = (int)((NewRows >= minSideCells && NewRows <= maxSideCells) ? NewRows : defaulSideCells);
-            Cols = (int)((NewCols >= minSideCells && NewCols <= maxSideCells) ? NewCols : defaulSideCells);
+            Rows = (int)((NewRows is >= (int)minSideCells and <= (int)maxSideCells) ? NewRows : defaulSideCells);
+            Cols = (int)((NewCols is >= (int)minSideCells and <= (int)maxSideCells) ? NewCols : defaulSideCells);
         }
 
         public static bool operator ==(Settings x, Settings y)
@@ -110,29 +99,21 @@
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
-                return true;
-
-            if (obj is Settings objset)
-            {
-                return (
-                    Speed == objset.Speed &&
+            return ReferenceEquals(this, obj)
+                    || obj is Settings objset
+                    && Speed == objset.Speed &&
                     Rows == objset.Rows &&
                     Cols == objset.Cols &&
-                    SettingsFreezed == objset.SettingsFreezed
-                    );
-            }
-
-            return false;
+                    SettingsFreezed == objset.SettingsFreezed;
         }
 
         public override int GetHashCode()
         {
             int hash = 17;
             hash += Speed.GetHashCode();
-            hash = hash * 23 + Rows.GetHashCode();
-            hash = hash * 23 + Cols.GetHashCode();
-            hash = hash * 23 + SettingsFreezed.GetHashCode();
+            hash = (hash * 23) + Rows.GetHashCode();
+            hash = (hash * 23) + Cols.GetHashCode();
+            hash = (hash * 23) + SettingsFreezed.GetHashCode();
             return hash;
         }
 

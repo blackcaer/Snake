@@ -28,7 +28,7 @@ namespace Snake
 
         public int SliderRowsValue
         {
-            get { return Settings.Rows; }
+            get => Settings.Rows;
             set
             {
                 Settings.SetRowsCols(value, Settings.Cols);
@@ -38,7 +38,7 @@ namespace Snake
 
         public int SliderColsValue
         {
-            get { return Settings.Cols; }
+            get => Settings.Cols;
             set
             {
                 Settings.SetRowsCols(Settings.Rows, value);
@@ -48,7 +48,7 @@ namespace Snake
 
         public double SliderSpeedValue
         {
-            get { return Settings.Speed; }
+            get => Settings.Speed;
             set
             {
                 Settings.SetSpeed(value);
