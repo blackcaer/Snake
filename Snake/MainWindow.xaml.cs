@@ -273,6 +273,7 @@ namespace Snake
             previousScore = new PlayerScore(bestScore: previousScoreValue);
             ScoreValue.Text = previousScoreValue.ToString();
 
+            NicknameTextBox.Clear();
             OverlayEndGame.Visibility = Visibility.Visible;
             OverlayDark.Visibility = Visibility.Visible;
         }
